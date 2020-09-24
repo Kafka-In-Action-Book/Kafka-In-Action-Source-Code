@@ -14,6 +14,7 @@ import java.util.Properties;
 import static com.kafkainaction.alert_status.Critical;
 
 public class HelloWorldProducer {
+
   static final Logger log = LoggerFactory.getLogger(HelloWorldProducer.class);
 
   public static void main(String[] args) {
@@ -33,14 +34,7 @@ public class HelloWorldProducer {
                                alert.getSensorId(),
                                alert);
 
-      producer.send(producerRecord, (recordMetadata, e) -> {
-        if (e == null) {
-          log.info("[RecordMetadata]: offset = {}, partition = {}, topic = {}",
-                   recordMetadata.offset(),
-                   recordMetadata.partition(),
-                   recordMetadata.topic());
-        }
-      });
+      producer.send(producerRecord);
     }
   }
 
