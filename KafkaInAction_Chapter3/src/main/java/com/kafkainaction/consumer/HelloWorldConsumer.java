@@ -1,7 +1,6 @@
 package com.kafkainaction.consumer;
 
 import com.kafkainaction.Alert;
-import com.kafkainaction.producer.HelloWorldProducer;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -15,7 +14,7 @@ import java.util.Properties;
 
 public class HelloWorldConsumer {
 
-  final static Logger log = LoggerFactory.getLogger(HelloWorldProducer.class);
+  final static Logger log = LoggerFactory.getLogger(HelloWorldConsumer.class);
 
   private volatile boolean keepConsuming = true;
 
