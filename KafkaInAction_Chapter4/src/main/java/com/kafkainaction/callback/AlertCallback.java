@@ -13,9 +13,7 @@ public class AlertCallback implements Callback {
     if (exception != null) {
       log.error("Error sending message:", exception);
     } else {
-      log.info("Message sent: " + "offset = {}, topic = {}, timestamp = {}",
-               metadata.offset(),
-               metadata.topic(),
+      log.info("Message sent: " + "offset = {}, topic = {}, timestamp = {}", metadata.offset(), metadata.topic(),
                metadata.timestamp());
     }
   }

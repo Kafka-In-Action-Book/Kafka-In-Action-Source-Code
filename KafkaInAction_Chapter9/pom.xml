@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>chapter9</artifactId>
+    <description>Administration - Cluster Tools, Logging, and Monitoring</description>
 
     <build>
         <finalName>chapter9</finalName>

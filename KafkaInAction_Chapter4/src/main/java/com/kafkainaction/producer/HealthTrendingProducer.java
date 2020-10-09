@@ -29,10 +29,7 @@ public class HealthTrendingProducer {
                                                                           alert.getAlertMessage()); // #A <1>
 
       RecordMetadata result = producer.send(producerRecord).get();
-      log.info("offset = {}, topic = {}, timestamp = {}",
-               result.offset(),
-               result.topic(),
-               result.timestamp());
+      log.info("offset = {}, topic = {}, timestamp = {}", result.offset(), result.topic(), result.timestamp());
     }
   }
 }

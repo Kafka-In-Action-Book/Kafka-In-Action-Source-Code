@@ -8,6 +8,7 @@
     </parent>
 	
     <artifactId>chapter10</artifactId>
+    <description>Protecting Kafka</description>
 
     <build>
         <finalName>chapter10</finalName>

@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>chapter12</artifactId>
+    <description>Kafka Streams and KSQL</description>
 
     <dependencies>
         <dependency>

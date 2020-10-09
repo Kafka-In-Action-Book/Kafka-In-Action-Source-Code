@@ -8,6 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>chapter11</artifactId>
+    <description>Schema Registry</description>
 
     <dependencies>
         <dependency>

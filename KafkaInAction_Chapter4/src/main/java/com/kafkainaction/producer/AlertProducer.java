@@ -17,8 +17,7 @@ public class AlertProducer {
     props.put("bootstrap.servers", "localhost:9092,localhost:9093");
     props.put("key.serializer", "com.kafkainaction.serde.AlertKeySerde"); // #A <1>
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("partitioner.class",
-              "com.kafkainaction.partitioner.AlertLevelPartitioner"); // #B <2>
+    props.put("partitioner.class", "com.kafkainaction.partitioner.AlertLevelPartitioner"); // #B <2>
 
     try (Producer<Alert, String> producer = new KafkaProducer<>(props)) {
       Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
