@@ -1,12 +1,13 @@
 package com.kafkainaction.consumer;
 
-import java.util.Arrays;
-import java.util.Properties;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
+
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Properties;
 
 public class AutoSync {
 
@@ -28,7 +29,7 @@ public class AutoSync {
 		consumer.assign(Arrays.asList(partition0, partition1));
 		
 		while (true) {
-		    ConsumerRecords<String, String> records = consumer.poll(100);
+		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
 		        System.out.printf("offset = %d, key = %s, value = %s", 
 		        record.offset(), record.key(), record.value());

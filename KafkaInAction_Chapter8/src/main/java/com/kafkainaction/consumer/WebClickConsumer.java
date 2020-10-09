@@ -1,39 +1,39 @@
 package com.kafkainaction.consumer;
 
-import java.util.Arrays;
-import java.util.Properties;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Properties;
+
 public class WebClickConsumer {
 
-	public static void main(String[] args) {
-		Properties props = new Properties();
-		props.put("bootstrap.servers", "localhost:9092,localhost:9093");
-		props.put("group.id", "helloconsumer"); 
-		props.put("key.deserializer", 
-				"org.apache.kafka.common.serialization.StringDeserializer");
-		props.put("value.deserializer", 
-				"org.apache.kafka.common.serialization.StringDeserializer");
+  public static void main(String[] args) {
+    Properties props = new Properties();
+    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    props.put("group.id", "helloconsumer");
+    props.put("key.deserializer",
+              "org.apache.kafka.common.serialization.StringDeserializer");
+    props.put("value.deserializer",
+              "org.apache.kafka.common.serialization.StringDeserializer");
 
-		@SuppressWarnings("resource")
-		KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(props); 
-																							
-		consumer.subscribe(Arrays.asList("webclicks")); // D <4>
+    try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
 
-		while (true) {
-			ConsumerRecords<String, String> records = consumer.poll(100); 
-																			
-			for (ConsumerRecord<String, String> record : records) {
-				System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-				System.out.printf("value = %d%n", Integer.getInteger(record.value()) * 1.543);
-			}
+      consumer.subscribe(Collections.singletonList("webclicks")); // D <4>
 
-			// consumer.close(); //unreachable code
-		}
+      while (true) {
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 
-	}
+        for (ConsumerRecord<String, String> record : records) {
+          System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(),
+                            record.key(), record.value());
+          System.out.printf("value = %d%n", Integer.getInteger(record.value()) * 1.543);
+        }
+      }
+    }
+
+  }
 
 }

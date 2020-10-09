@@ -1,5 +1,6 @@
 package com.kafkainaction.consumer;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class ASyncCommit {
 		props.put("value.deserializer", 
 				"org.apache.kafka.common.serialization.StringDeserializer");
 		
-		KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(props); 
+		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props); 
 																							
 		String topic = "webclicks";
 		TopicPartition partition0 = new TopicPartition(topic, 0);
@@ -31,7 +32,7 @@ public class ASyncCommit {
 		consumer.assign(Arrays.asList(partition0, partition1));
 		
 		while (true) {
-		    ConsumerRecords<String, String> records = consumer.poll(100);
+		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
 		        System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
 		        commitOffset(record.offset(),record.partition(), topic, consumer);
@@ -46,20 +47,17 @@ public class ASyncCommit {
 	    Map<TopicPartition, OffsetAndMetadata> offsetMap = new HashMap<TopicPartition, OffsetAndMetadata>();
 	    offsetMap.put(new TopicPartition(topic, part), offsetMeta);
 
-	    OffsetCommitCallback callback = new OffsetCommitCallback() { 
-	     
-	        public void onComplete(Map<TopicPartition, OffsetAndMetadata> map, Exception e) { 
-	            if (e != null) {
-	            	for (TopicPartition key: map.keySet()){
-	            		System.out.printf("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
-	            	}
-	            }
-	            else {
-	            	for (TopicPartition key: map.keySet()){
-            		  System.out.printf("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
-	            	}
-	            }
-	        }
+	    OffsetCommitCallback callback = (offsets, exception) -> { 
+		if (exception != null) {
+			for (TopicPartition key: offsets.keySet()){
+				System.out.printf("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), offsets.get(key).offset() );
+			}
+		}
+		else {
+			for (TopicPartition key: offsets.keySet()){
+			  System.out.printf("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), offsets.get(key).offset() );
+			}
+		}
 	    };
 	    consumer.commitAsync(offsetMap, callback);
 	}
