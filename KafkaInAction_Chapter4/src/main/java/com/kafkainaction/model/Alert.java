@@ -3,38 +3,37 @@ package com.kafkainaction.model;
 import java.io.Serializable;
 
 public class Alert implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private int alertId;
-	private String stageId;
-	private String alertLevel;
-	private String alertMessage;
+  private static final long serialVersionUID = 5224868980935721414L;
 
-	public Alert(int alertId, String stageId, String alertLevel, String alertMessage) {
-		this.alertId = alertId;
-		this.stageId = stageId;
-		this.alertLevel = alertLevel;
-		this.alertMessage = alertMessage;
-	}
+  private final int alertId;
+  private String stageId;
+  private final String alertLevel;
+  private final String alertMessage;
 
-	public int getAlertId() {
-		return alertId;
-	}
+  public Alert(int alertId, String stageId, String alertLevel, String alertMessage) {
+    this.alertId = alertId;
+    this.stageId = stageId;
+    this.alertLevel = alertLevel;
+    this.alertMessage = alertMessage;
+  }
 
-	public String getStageId() {
-		return stageId;
-	}
+  public int getAlertId() {
+    return alertId;
+  }
 
-	public void setStageId(String stageId) {
-		this.stageId = stageId;
-	}
+  public String getStageId() {
+    return stageId;
+  }
 
-	public String getAlertLevel() {
-		return alertLevel;
-	}
+  public void setStageId(String stageId) {
+    this.stageId = stageId;
+  }
 
-	public String getAlertMessage() {
-		return alertMessage;
-	}
+  public String getAlertLevel() {
+    return alertLevel;
+  }
+
+  public String getAlertMessage() {
+    return alertMessage;
+  }
 }
