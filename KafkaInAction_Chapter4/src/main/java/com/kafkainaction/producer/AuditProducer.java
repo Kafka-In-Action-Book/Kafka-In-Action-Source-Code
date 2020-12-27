@@ -29,10 +29,7 @@ public class AuditProducer {
                                                                            "audit event");
 
       RecordMetadata result = producer.send(producerRecord).get();
-      log.info("offset = {}, topic = {}, timestamp = {}",
-               result.offset(),
-               result.topic(),
-               result.timestamp());
+      log.info("offset = {}, topic = {}, timestamp = {}", result.offset(), result.topic(), result.timestamp());
 
     }
   }

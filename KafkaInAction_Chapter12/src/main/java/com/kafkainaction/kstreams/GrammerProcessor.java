@@ -11,6 +11,7 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.kstream.ValueMapper;
 
 public class GrammerProcessor {
 
@@ -26,7 +27,8 @@ public class GrammerProcessor {
     	KStream<String, String> grammarStream = builder.stream("grammar-landing",
     	    Consumed.with(stringSerde, stringSerde));
 
-    	KStream<String, String> capStream = grammarStream.mapValues(WordUtils::capitalizeFully); 
+    	KStream<String, String> capStream = grammarStream.mapValues(
+			(ValueMapper<String, String>) WordUtils::capitalizeFully); 
 
     	capStream.to("grammar-cap", Produced.with(stringSerde, stringSerde));
 

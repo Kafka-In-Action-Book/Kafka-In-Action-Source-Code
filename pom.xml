@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kafkainaction</groupId>
+    <artifactId>parent-project</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>11</java.version>
+        <kafka.version>2.6.0</kafka.version>
+        <kafka.scala.version>2.13</kafka.scala.version>
+        <avro.version>1.10.0</avro.version>
+        <confluent.version>5.5.1</confluent.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>apache-repo</id>
+            <name>Apache Repository</name>
+            <url>https://repository.apache.org/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+        <!-- explicit transitive dependency -->
+        <!-- see https://github.com/apache/kafka/blob/149897976214a769a35cf87eecf9c02221f8d597/build.gradle#L994 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.5</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <showWarnings>true</showWarnings>
+                        <compilerArgs>
+                            <arg>-Xlint:deprecation</arg>
+                            <arg>-Werror</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
+    <modules>
+        <module>KafkaInAction_Chapter2</module>
+        <module>KafkaInAction_Chapter3</module>
+        <module>KafkaInAction_Chapter4</module>
+        <module>KafkaInAction_Chapter5</module>
+        <module>KafkaInAction_Chapter6</module>
+        <module>KafkaInAction_Chapter7</module>
+        <module>KafkaInAction_Chapter8</module>
+        <module>KafkaInAction_Chapter9</module>
+        <module>KafkaInAction_Chapter10</module>
+        <module>KafkaInAction_Chapter11</module>
+        <module>KafkaInAction_Chapter12</module>
+    </modules>
+</project>

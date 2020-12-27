@@ -1,5 +1,6 @@
 package com.kafkainaction.consumer;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -19,11 +20,11 @@ public class HelloWorldConsumer {
 		props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
 		@SuppressWarnings("resource")
-		KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(props);
+		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 		consumer.subscribe(Arrays.asList("helloworld"));
 
 		while (true) {
-			ConsumerRecords<String, String> records = consumer.poll(100);
+			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 			for (ConsumerRecord<String, String> record : records)
 				System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
 		}

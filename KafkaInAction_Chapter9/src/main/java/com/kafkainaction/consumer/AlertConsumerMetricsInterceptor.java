@@ -1,6 +1,6 @@
 package com.kafkainaction.consumer;
 
-import java.util.Map;
+import com.kafkainaction.model.Alert;
 
 import org.apache.kafka.clients.consumer.ConsumerInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -10,35 +10,33 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
 
-import com.kafkainaction.model.Alert;
+import java.util.Map;
 
 public class AlertConsumerMetricsInterceptor implements ConsumerInterceptor<Alert, String> {
 
-	public ConsumerRecords<Alert, String> onConsume(ConsumerRecords<Alert, String> records) {
-		if (records.isEmpty()) {
-			return records;
-		} else {
-			for (ConsumerRecord<Alert, String> record : records) {
-				Headers headers = record.headers();
-				for (Header header : headers) {
-					if ("traceId".equals(header.key())) {
-						System.out.println("TraceId is: " + new String(header.value()));
-					}
-				}
-			}
-		}
-		
-		return records;
-	}
+  public ConsumerRecords<Alert, String> onConsume(ConsumerRecords<Alert, String> records) {
+    if (records.isEmpty()) {
+      return records;
+    } else {
+      for (ConsumerRecord<Alert, String> record : records) {
+        Headers headers = record.headers();
+        for (Header header : headers) {
+          if ("traceId".equals(header.key())) {
+            System.out.println("TraceId is: " + new String(header.value()));
+          }
+        }
+      }
+    }
 
-	public void onCommit(Map<TopicPartition, OffsetAndMetadata> offsets) {
-	}
+    return records;
+  }
 
-	public void close() {
-	}
+  public void onCommit(Map<TopicPartition, OffsetAndMetadata> offsets) {
+  }
 
-	public void configure(Map<String, ?> configs) {
-	}
+  public void close() {
+  }
 
-
+  public void configure(Map<String, ?> configs) {
+  }
 }
