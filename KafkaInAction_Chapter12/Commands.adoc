@@ -6,18 +6,15 @@ docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
 
 == Create an interactive session with ksqlDB
 
-CREATE STREAM hunterLocations (treasureId VARCHAR, latitude DOUBLE, longitude DOUBLE)
-  WITH (kafka_topic='loc', key='treasureId', value_format='json', partitions=1);
+CREATE STREAM hunterLocations (treasureId VARCHAR, latitude DOUBLE, longitude DOUBLE) WITH (kafka_topic='loc', key='treasureId', value_format='json', partitions=1);
 
 == Create an interactive session with ksqlDB
 
-SELECT * FROM hunterLocations
-  WHERE GEO_DISTANCE(latitude, longitude, 43.6693, 92.9747, 'mi') \<= 1 EMIT CHANGES;
+SELECT * FROM hunterLocations WHERE GEO_DISTANCE(latitude, longitude, 43.6693, 92.9747, 'mi') \<= 1 EMIT CHANGES;
 
 == New stream events on locations
 
-INSERT INTO hunterLocations (treasureId, latitude, longitude) VALUES ('team1', 53.6693, 93.9747);
-INSERT INTO hunterLocations (treasureId, latitude, longitude) VALUES ('team2', 43.6694, 92.9847);
+INSERT INTO hunterLocations (treasureId, latitude, longitude) VALUES ('team1', 53.6693, 93.9747); INSERT INTO hunterLocations (treasureId, latitude, longitude) VALUES ('team2', 43.6694, 92.9847);
 
 == Start ksqlDB in headless mode
 
@@ -26,7 +23,7 @@ INSERT INTO hunterLocations (treasureId, latitude, longitude) VALUES ('team2', 4
 
 == running a new version of Streams app
 
-. start Confluent Platform 
+. start Confluent Platform
 +
 
 `confluent local services ksql-server start`
@@ -53,7 +50,7 @@ kafka-avro-console-producer --topic transaction-request --bootstrap-server local
 {"guid":"7bb790ec-96b9-47f6-b2b2-ebf36cb41da7","account":"2","amount":"u0","type":"DEPOSIT","currency":"USD","country":"USA"}
 ----
 
-. consume result from 
+. consume result from
 +
 
 [source,shell script]
@@ -74,7 +71,52 @@ kafka-avro-console-consumer --bootstrap-server localhost:9092 --from-beginning -
 {"transaction":{"guid":"7bb790ec-96b9-47f6-b2b2-ebf36cb41da7","account":"2","amount":"u0","type":"DEPOSIT","currency":"USD","country":"USA"},"funds":{"account":"2","balance":"\u0000¯È"},"success":true,"errorType":null}
 ----
 <1> Failed transactions
-<2> Successful transactions 
+<2> Successful transactions
+
+[source,sql]
+.account.sql
+----
+CREATE TABLE ACCOUNT (
+  numkey string PRIMARY KEY,
+  number INT,
+  firstName STRING,
+  lastName STRING,
+  numberAddress STRING,
+  streetAddress STRING,
+  cityAddress STRING,
+  countryAddress STRING,
+  creationDate BIGINT,
+  updateDate BIGINT
+) WITH (
+  KAFKA_TOPIC = 'account',
+  VALUE_FORMAT='avro',
+    PARTITIONS=6, 
+    REPLICAS=1    
+);
+----
+
+[source,sql]
+----
+CREATE STREAM TRANSACTION_SUCCESS (
+  numkey string KEY,
+  transaction STRUCT<guid STRING, account STRING, amount DECIMAL(9, 2), type STRING, currency STRING, country STRING>,
+  funds STRUCT<account STRING, balance DECIMAL(9, 2)>,
+  success boolean,
+  errorType STRING
+) WITH (
+  kafka_topic='transaction-success',
+  value_format='avro'
+);
+----
+
+[source,sql]
+----
+CREATE STREAM TRANSACTION_STATEMENT AS
+  SELECT *
+  FROM TRANSACTION_SUCCESS
+  LEFT JOIN ACCOUNT ON TRANSACTION_SUCCESS.numkey = ACCOUNT.numkey
+  EMIT CHANGES;
+----
 
 
 
