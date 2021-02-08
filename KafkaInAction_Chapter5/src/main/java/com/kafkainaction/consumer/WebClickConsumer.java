@@ -23,16 +23,17 @@ public class WebClickConsumer {
 		KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(props); 
 																							
 		consumer.subscribe(Arrays.asList("webclicks")); // D <4>
-
-		while (true) {
-			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); 
-																			
+		
+		try {
+		    while (true) {
+			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); // E <5>
 			for (ConsumerRecord<String, String> record : records) {
-				System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-				System.out.printf("value = %.2f%n", Double.parseDouble(record.value()) * 1.543);
+			    System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+			    System.out.printf("value = %.2f%n", Double.parseDouble(record.value()) * 1.543);
 			}
-
-			// consumer.close(); //unreachable code
+		    }
+		} finally {
+		    consumer.close();
 		}
 
 	}
