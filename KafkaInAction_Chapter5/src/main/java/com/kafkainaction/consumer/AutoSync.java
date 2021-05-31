@@ -4,12 +4,16 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 
 public class AutoSync {
+  final static Logger log = LoggerFactory.getLogger(AutoSync.class);
 
 	public static void main(String[] args) {
 		Properties props = new Properties();
@@ -31,7 +35,7 @@ public class AutoSync {
 		while (true) {
 		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
-		        System.out.printf("offset = %d, key = %s, value = %s", 
+		        log.info("offset = %d, key = %s, value = %s", 
 		        record.offset(), record.key(), record.value());
 		    }
 		    consumer.commitSync();
