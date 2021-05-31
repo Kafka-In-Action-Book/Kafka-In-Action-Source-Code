@@ -3,6 +3,7 @@ package com.kafkainaction.consumer;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
