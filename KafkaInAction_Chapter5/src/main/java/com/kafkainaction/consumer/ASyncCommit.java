@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -14,7 +17,8 @@ import org.apache.kafka.clients.consumer.OffsetCommitCallback;
 import org.apache.kafka.common.TopicPartition;
 
 public class ASyncCommit {
-
+	final static Logger log = LoggerFactory.getLogger(ASyncCommit.class);
+        
 	public static void main(String[] args) {
 		Properties props = new Properties();
 		props.put("bootstrap.servers", "localhost:9092,localhost:9093");
@@ -34,7 +38,7 @@ public class ASyncCommit {
 		while (true) {
 		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
-		        System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+		        log.info("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
 		        commitOffset(record.offset(),record.partition(), topicName, consumer);
 		    }
 		}
