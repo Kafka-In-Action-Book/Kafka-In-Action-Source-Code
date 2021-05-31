@@ -15,7 +15,7 @@ We are going to start fresh.
 ### Download for Confluent Open Source
 
 * https://www.confluent.io/download/
-Select the Confluent Open Source version 5.5.1 or above and unzip that archive.
+Select the Confluent Open Source version 6.6.1 or above and unzip that archive.
 
 * install Confluent CLI https://docs.confluent.io/current/cli/installing.html
 
@@ -41,7 +41,8 @@ INSERT INTO invoices (id,title,details,billedamt)  VALUES (1, 'book', 'Franz Kaf
 
 ### Edit source jdbc connector file to the following:
 
-`> vi $CONFLUENT_HOME/etc/kafka-connect-jdbc/source-quickstart-sqlite.properties`
+`> cp $CONFLUENT_HOME/etc/kafka-connect-jdbc/source-quickstart-sqlite.properties $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties`
+`> vi $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties`
  
 ```properties
 name=test-source-sqlite-jdbc-invoice
@@ -64,7 +65,7 @@ Run the following:
 > confluent local services connect start 
 > confluent local services connect connector load jdbc-source
 > confluent local services connect connector status
-> ./bin/kafka-avro-console-consumer --topic test-sqlite-jdbc-invoices --zookeeper localhost:2181  --from-beginning
+> ./bin/kafka-avro-console-consumer --topic test-sqlite-jdbc-invoices --bootstrap-server localhost:9092  --from-beginning
 ```
 
 ## Avro Notes
@@ -86,7 +87,7 @@ NOTE:
 
 ```bash
 > ./mvnw verify # build a uber jar
-> java -cp target/chapter3-jar-with-dependencies.jar com.kafkainaction.consumer.HelloWorldConsumer # run a consumer application
-> java -cp target/chapter3-jar-with-dependencies.jar com.kafkainaction.producer.HelloWorldProducer # run a producer
+> java -cp target/chapter3-jar-with-dependencies.jar org.kafkainaction.consumer.HelloWorldConsumer # run a consumer application
+> java -cp target/chapter3-jar-with-dependencies.jar org.kafkainaction.producer.HelloWorldProducer # run a producer
 
 ``` 
