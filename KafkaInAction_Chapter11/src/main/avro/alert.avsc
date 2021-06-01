@@ -1,4 +1,4 @@
-{"namespace": "com.kafkainaction",
+{"namespace": "org.kafkainaction",
  "type": "record",
  "name": "Alert",
  "fields": [
