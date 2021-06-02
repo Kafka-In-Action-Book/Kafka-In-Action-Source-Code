@@ -34,6 +34,6 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 \
 <dependency>
     <groupId>org.apache.kafka</groupId>
     <artifactId>kafka-clients</artifactId>
-    <version>2.6.0</version>
+    <version>2.7.1</version>
 </dependency>
 ```

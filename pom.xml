@@ -8,10 +8,10 @@
 
     <properties>
         <java.version>11</java.version>
-        <kafka.version>2.6.0</kafka.version>
+        <kafka.version>2.7.1</kafka.version>
         <kafka.scala.version>2.13</kafka.scala.version>
         <avro.version>1.10.0</avro.version>
-        <confluent.version>6.0.1</confluent.version>
+        <confluent.version>6.1.1</confluent.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

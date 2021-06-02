@@ -9,7 +9,7 @@ Here are some notes regarding the source code:
 ### Requirements
 This project was built with the following versions:
 
-1. Java 8
+1. Java 11
 2. Apache Maven 3.5.0
 
 ### IDE setup
@@ -20,11 +20,11 @@ This project was built with the following versions:
 ### Installing Kafka
 Run the following in a directory (without spaces in the path) once you get the artifact downloaded. Refer to Appendix A if needed.
 
-    tar -xzf kafka_2.12-2.4.0.tgz
-    cd kafka_2.12-2.4.0
+    tar -xzf kafka_2.13-2.7.1.tgz
+    cd kafka_2.13-2.7.1
 
 ### Running Kafka
-1. To start Kafka go to <install dir>/kafka_2.12-2.4.0/
+1. To start Kafka go to <install dir>/kafka_2.13-2.7.1/
 2. Run bin/zookeeper-server-start.sh config/zookeeper.properties
 3. Modify the Kafka server configs
 
@@ -54,7 +54,7 @@ Run the following in a directory (without spaces in the path) once you get the a
     bin/kafka-server-start.sh config/server2.properties
  
 ### Stopping Kafka
-1. To stop Kafka go to <install dir>/kafka_2.12-2.4.0/
+1. To stop Kafka go to <install dir>/kafka_2.13-2.7.1/
 2. Run bin/kafka-server-stop.sh
 3. Run bin/zookeeper-server-stop.sh
 
