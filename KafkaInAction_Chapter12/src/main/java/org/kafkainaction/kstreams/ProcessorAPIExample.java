@@ -14,6 +14,7 @@ import org.apache.kafka.streams.Topology;
 
 public class ProcessorAPIExample {
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
 
 		Properties props = new Properties();
