@@ -35,7 +35,7 @@ public class AutoSync {
 		while (true) {
 		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
-		        log.info("offset = %d, key = %s, value = %s", 
+		        log.info("offset = {}, key = {}, value = {}", 
 		        record.offset(), record.key(), record.value());
 		    }
 		    consumer.commitSync();

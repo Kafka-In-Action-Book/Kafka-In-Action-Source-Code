@@ -38,7 +38,7 @@ public class ASyncCommit {
 		while (true) {
 		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
-		        log.info("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+		        log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
 		        commitOffset(record.offset(),record.partition(), topicName, consumer);
 		    }
 		}
@@ -56,12 +56,12 @@ public class ASyncCommit {
 	        public void onComplete(Map<TopicPartition, OffsetAndMetadata> map, Exception e) { 
 	            if (e != null) {
 	            	for (TopicPartition key: map.keySet()){
-	            		System.out.printf("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
+	            		log.info("Commit failed: topic {}, partition {}, offset {}", key.topic(), key.partition(), map.get(key).offset() );
 	            	}
 	            }
 	            else {
 	            	for (TopicPartition key: map.keySet()){
-	        		  System.out.printf("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
+	        		  log.info("OK: topic {}, partition {}, offset {}", key.topic(), key.partition(), map.get(key).offset() );
 	            	}
 	            }
 	        }

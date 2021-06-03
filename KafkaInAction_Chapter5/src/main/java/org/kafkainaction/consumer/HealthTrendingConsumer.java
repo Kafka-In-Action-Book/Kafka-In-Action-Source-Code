@@ -33,7 +33,7 @@ public class HealthTrendingConsumer {
 		while (true) {
 			ConsumerRecords<Alert, String> records = consumer.poll(Duration.ofMillis(100));
 			for (ConsumerRecord<Alert, String> record : records) {
-				log.info("offset = %d, key = %s, value = %s%n", record.offset(), record.key().getStageId(), record.value());
+				log.info("offset = {}, key = {}, value = {}", record.offset(), record.key().getStageId(), record.value());
 			}
 		}
 

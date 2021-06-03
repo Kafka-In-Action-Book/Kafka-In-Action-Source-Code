@@ -38,8 +38,8 @@ public class ManualPartitionAssign {
 			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); 
 																			
 			for (ConsumerRecord<String, String> record : records) {
-				log.info("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-				log.info("value = %d%n", Integer.getInteger(record.value()) * 1.543);
+				log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+				log.info("value = {}", Integer.getInteger(record.value()) * 1.543);
 			}
 		
 			// consumer.close(); //unreachable code

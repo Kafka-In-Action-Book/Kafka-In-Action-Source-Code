@@ -3,12 +3,15 @@ package org.kafkainaction.consumer;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 public class WebClickConsumer {
+	final static Logger log = LoggerFactory.getLogger(WebClickConsumer.class);
 
 	public static void main(String[] args) {
 		Properties props = new Properties();
@@ -28,8 +31,8 @@ public class WebClickConsumer {
 			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); 
 																			
 			for (ConsumerRecord<String, String> record : records) {
-				System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-				System.out.printf("value = %d%n", Integer.getInteger(record.value()) * 1.543);
+				log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+				log.info("value = {}", Integer.getInteger(record.value()) * 1.543);
 			}
 
 			// consumer.close(); //unreachable code

@@ -7,26 +7,28 @@ import org.apache.kafka.clients.producer.ProducerInterceptor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.header.Headers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.kafkainaction.model.Alert;
 
 public class AlertProducerMetricsInterceptor implements ProducerInterceptor<Alert, String>{
-
+	final static Logger log = LoggerFactory.getLogger(AlertProducerMetricsInterceptor.class);
 
 	public ProducerRecord<Alert, String> onSend(ProducerRecord<Alert, String> record) {
 		Headers headers = record.headers();
 		String traceId = UUID.randomUUID().toString();
 		headers.add("traceId", traceId.getBytes());
-		System.out.println("Created traceId: " + traceId);
+		log.info("Created traceId: " + traceId);
 		return record;
 	}
 
 	public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
 		if (exception != null) {
-			System.out.println("producer send exception " + exception.getMessage());
+			log.info("producer send exception " + exception.getMessage());
 		} else {
-			System.out.println(String.format("ack'ed topic=%s, partition=%d, offset=%d\n",
-                    metadata.topic(), metadata.partition(), metadata.offset()));
+			log.info("ack'ed topic={}, partition={}, offset={}",
+                    metadata.topic(), metadata.partition(), metadata.offset());
 		}
 		
 	}
