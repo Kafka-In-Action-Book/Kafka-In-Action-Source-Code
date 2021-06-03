@@ -10,12 +10,12 @@ public class HelloWorldProducer {
 
   public static void main(String[] args) {
 
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094");
-    props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    Properties producerProperties = new Properties();
+    producerProperties.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094");
+    producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
-    try (Producer<String, String> producer = new KafkaProducer<String, String>(props)) {
+    try (Producer<String, String> producer = new KafkaProducer<String, String>(producerProperties)) {
 
       ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("helloworld", null,
                                                                            "hello world again!");

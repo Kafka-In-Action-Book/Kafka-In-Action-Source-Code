@@ -18,7 +18,7 @@ public class HelloWorldConsumer {
 
   public static void main(String[] args) {
     Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092");
+    props.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094");
     props.put("group.id", "helloconsumer");
     props.put("enable.auto.commit", "true");
     props.put("auto.commit.interval.ms", "1000");
