@@ -10,7 +10,7 @@ public class AlertCallback implements Callback {
 
 	public void onCompletion(RecordMetadata metadata, Exception exception) {
 		if (exception != null) {
-			log.info("Error sending message: " + "offset = %d, topic = %s, timestamp = %Tc %n", metadata.offset(),
+			log.info("Error sending message: offset = {}, topic = {}, timestamp = {}", metadata.offset(),
 					metadata.topic(), metadata.timestamp());
 		}
 

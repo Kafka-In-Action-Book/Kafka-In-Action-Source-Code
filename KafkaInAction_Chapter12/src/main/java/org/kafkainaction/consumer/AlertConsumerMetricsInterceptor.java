@@ -10,10 +10,13 @@ import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.kafkainaction.model.Alert;
 
 public class AlertConsumerMetricsInterceptor implements ConsumerInterceptor<Alert, String> {
+	final static Logger log = LoggerFactory.getLogger(AlertConsumerMetricsInterceptor.class);
 
 	public ConsumerRecords<Alert, String> onConsume(ConsumerRecords<Alert, String> records) {
 		if (records.isEmpty()) {

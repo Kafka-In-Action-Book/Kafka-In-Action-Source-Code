@@ -53,12 +53,12 @@ public class ASyncCommit {
 	    OffsetCommitCallback callback = (offsets, exception) -> { 
 		if (exception != null) {
 			for (TopicPartition key: offsets.keySet()){
-				log.info("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), offsets.get(key).offset() );
+				log.info("Commit failed: topic {}, partition {}, offset {}", key.topic(), key.partition(), offsets.get(key).offset() );
 			}
 		}
 		else {
 			for (TopicPartition key: offsets.keySet()){
-			  log.info("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), offsets.get(key).offset() );
+			  log.info("OK: topic {}, partition {}, offset {}", key.topic(), key.partition(), offsets.get(key).offset() );
 			}
 		}
 	    };

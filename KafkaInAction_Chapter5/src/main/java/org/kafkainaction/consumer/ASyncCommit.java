@@ -56,12 +56,12 @@ public class ASyncCommit {
 	        public void onComplete(Map<TopicPartition, OffsetAndMetadata> map, Exception e) { 
 	            if (e != null) {
 	            	for (TopicPartition key: map.keySet()){
-	            		log.info("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
+	            		log.info("Commit failed: topic {}, partition {}, offset {}", key.topic(), key.partition(), map.get(key).offset() );
 	            	}
 	            }
 	            else {
 	            	for (TopicPartition key: map.keySet()){
-	        		  log.info("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
+	        		  log.info("OK: topic {}, partition {}, offset {}", key.topic(), key.partition(), map.get(key).offset() );
 	            	}
 	            }
 	        }
