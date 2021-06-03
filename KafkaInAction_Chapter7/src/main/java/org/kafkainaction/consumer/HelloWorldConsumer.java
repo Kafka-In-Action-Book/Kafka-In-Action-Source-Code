@@ -7,8 +7,11 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HelloWorldConsumer {
+  final static Logger log = LoggerFactory.getLogger(HelloWorldConsumer.class);
 
   public static void main(String[] args) {
     Properties props = new Properties();
@@ -25,7 +28,7 @@ public class HelloWorldConsumer {
       while (true) {
         ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
         for (ConsumerRecord<String, String> record : records) {
-          System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(),
+          log.info("offset = {}, key = {}, value = {}", record.offset(),
                             record.key(), record.value());
         }
       }

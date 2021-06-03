@@ -2,6 +2,8 @@ package org.kafkainaction.producer;
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -9,6 +11,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
 public class AuditProducer {
+	
+	final static Logger log = LoggerFactory.getLogger(AuditProducer.class);
 	
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 
@@ -26,7 +30,7 @@ public class AuditProducer {
 				"audit event");
 
 		RecordMetadata result = producer.send(producerRecord).get();
-		System.out.printf("offset = %d, topic = %s, timestamp = %Tc %n", result.offset(), result.topic(), result.timestamp());
+		log.info("offset = {}, topic = {}, timestamp = {}", result.offset(), result.topic(), result.timestamp());
 
 
 		producer.close();

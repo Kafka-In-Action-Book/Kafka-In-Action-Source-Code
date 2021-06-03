@@ -2,6 +2,7 @@ package org.kafkainaction.consumer;
 
 import java.util.Map;
 
+
 import org.apache.kafka.clients.consumer.ConsumerInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -22,7 +23,7 @@ public class AlertConsumerMetricsInterceptor implements ConsumerInterceptor<Aler
 				Headers headers = record.headers();
 				for (Header header : headers) {
 					if ("traceId".equals(header.key())) {
-						System.out.println("TraceId is: " + new String(header.value()));
+						log.info("TraceId is: " + new String(header.value()));
 					}
 				}
 			}

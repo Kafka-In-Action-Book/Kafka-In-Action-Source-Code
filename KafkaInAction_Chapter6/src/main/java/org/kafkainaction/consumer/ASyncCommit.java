@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -14,6 +16,8 @@ import org.apache.kafka.clients.consumer.OffsetCommitCallback;
 import org.apache.kafka.common.TopicPartition;
 
 public class ASyncCommit {
+	
+	final static Logger log = LoggerFactory.getLogger(ASyncCommit.class);
 
 	public static void main(String[] args) {
 		Properties props = new Properties();
@@ -34,7 +38,7 @@ public class ASyncCommit {
 		while (true) {
 		    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 		    for (ConsumerRecord<String, String> record : records) {
-		        System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+		        log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
 		        commitOffset(record.offset(),record.partition(), topic, consumer);
 		    }
 		}
@@ -50,12 +54,12 @@ public class ASyncCommit {
 	    OffsetCommitCallback callback = (map, e) -> { 
 		if (e != null) {
 			for (TopicPartition key: map.keySet()){
-				System.out.printf("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
+				log.info("Commit failed: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
 			}
 		}
 		else {
 			for (TopicPartition key: map.keySet()){
-			  System.out.printf("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
+			  log.info("OK: topic %s, partition %d, offset %d", key.topic(), key.partition(), map.get(key).offset() );
 			}
 		}
 	    };

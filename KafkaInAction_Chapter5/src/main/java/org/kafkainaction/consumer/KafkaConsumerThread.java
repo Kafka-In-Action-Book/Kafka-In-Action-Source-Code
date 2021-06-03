@@ -29,7 +29,7 @@ public class KafkaConsumerThread implements Runnable {
             while (!stopping.get()) { 
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
     			for (ConsumerRecord<String, String> record : records) {
-    				log.info("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+    				log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
     			}
             }
         } catch (WakeupException e) { 

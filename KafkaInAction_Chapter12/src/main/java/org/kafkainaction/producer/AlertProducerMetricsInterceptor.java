@@ -17,16 +17,16 @@ public class AlertProducerMetricsInterceptor implements ProducerInterceptor<Aler
 		Headers headers = record.headers();
 		String traceId = UUID.randomUUID().toString();
 		headers.add("traceId", traceId.getBytes());
-		System.out.println("Created traceId: " + traceId);
+		log.info("Created traceId: " + traceId);
 		return record;
 	}
 
 	public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
 		if (exception != null) {
-			System.out.println("producer send exception " + exception.getMessage());
+			log.info("producer send exception " + exception.getMessage());
 		} else {
-			System.out.println(String.format("ack'ed topic=%s, partition=%d, offset=%d\n",
-                    metadata.topic(), metadata.partition(), metadata.offset()));
+			log.info("ack'ed topic={}, partition={}, offset={}",
+                    metadata.topic(), metadata.partition(), metadata.offset());
 		}
 		
 	}

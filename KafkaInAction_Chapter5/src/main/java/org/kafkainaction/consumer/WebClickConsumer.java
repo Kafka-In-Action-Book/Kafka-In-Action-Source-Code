@@ -42,7 +42,7 @@ public class WebClickConsumer {
         for (ConsumerRecord<String, String> record : records) {
           log.info("[Consumer Record] offset = {}, key = {}, value = {}", record.offset(), record.key(),
                    record.value());
-	  log.info("value = %.2f%n", Double.parseDouble(record.value()) * 1.543);	
+	  log.info("value = {}", Double.parseDouble(record.value()) * 1.543);	
         }
       }
     }

@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -11,6 +13,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 
 public class KafkaConsumerThread implements Runnable {
+	final static Logger log = LoggerFactory.getLogger(KafkaConsumerThread.class);
+
     private final AtomicBoolean stopping = new AtomicBoolean(false);
     
     private static KafkaConsumer<String, String> consumer = null;
@@ -30,7 +34,7 @@ public class KafkaConsumerThread implements Runnable {
 		while (true) {
 			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 			for (ConsumerRecord<String, String> record : records)
-				System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+				log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
 		}
 
 		// consumer.close(); //unreachable code

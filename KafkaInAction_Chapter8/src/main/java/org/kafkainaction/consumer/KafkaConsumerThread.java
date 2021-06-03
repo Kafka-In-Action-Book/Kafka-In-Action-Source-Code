@@ -9,8 +9,11 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KafkaConsumerThread implements Runnable {
+  final static Logger log = LoggerFactory.getLogger(KafkaConsumerThread.class);
 
   private final AtomicBoolean stopping = new AtomicBoolean(false);
 
@@ -31,7 +34,7 @@ public class KafkaConsumerThread implements Runnable {
     while (true) {
       ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
       for (ConsumerRecord<String, String> record : records) {
-        System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+        log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
       }
     }
   }
