@@ -1,8 +1,5 @@
 package com.kafkainaction.kstreams2;
 
-import com.kafkainaction.kstreams2.SchemaSerdes;
-import com.kafkainaction.kstreams2.TransactionTransformer;
-
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.processor.MockProcessorContext;
 import org.apache.kafka.streams.state.KeyValueStore;
@@ -33,7 +30,7 @@ public class TransactionTransformerTest {
   
   private KeyValueStore<String, Funds> fundsStore;
   private MockProcessorContext mockContext;
-  private TransactionTransformer transactionTransformer;
+  private com.kafkainaction.kstreams2.TransactionTransformer transactionTransformer;
   final static Map<String, String> testConfig = Map.of(
       BOOTSTRAP_SERVERS_CONFIG, "localhost:8080",
       APPLICATION_ID_CONFIG, "mytest",
@@ -42,6 +39,7 @@ public class TransactionTransformerTest {
 
 
   @Before
+  @SuppressWarnings("deprecation")
   public void setup() {
     final Properties properties = new Properties();
     properties.putAll(testConfig);
@@ -49,7 +47,7 @@ public class TransactionTransformerTest {
 
     final SpecificAvroSerde<Funds>
         specificAvroSerde =
-        SchemaSerdes.getSpecificAvroSerde(properties);
+        com.kafkainaction.kstreams2.SchemaSerdes.getSpecificAvroSerde(properties);
     
     fundsStore = Stores.keyValueStoreBuilder(
         Stores.inMemoryKeyValueStore("fundsStore"),
@@ -61,7 +59,7 @@ public class TransactionTransformerTest {
     fundsStore.init(mockContext, fundsStore);
     mockContext.register(fundsStore, null);
 
-    transactionTransformer = new TransactionTransformer(fundsStore.name());
+    transactionTransformer = new com.kafkainaction.kstreams2.TransactionTransformer(fundsStore.name());
     transactionTransformer.init(mockContext);
   }
 
