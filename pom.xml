@@ -11,7 +11,7 @@
         <kafka.version>2.7.1</kafka.version>
         <kafka.scala.version>2.13</kafka.scala.version>
         <avro.version>1.10.2</avro.version>
-        <confluent.version>6.1.1</confluent.version>
+        <confluent.version>6.2.0</confluent.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
