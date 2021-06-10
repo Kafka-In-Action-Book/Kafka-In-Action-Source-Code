@@ -7,8 +7,8 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>chapter10</artifactId>
-    <description>Protecting Kafka (no Java)</description>
+    <artifactId>chapter10-no-java</artifactId>
+    <description>Protecting Kafka</description>
 
     <build>
         <finalName>chapter10</finalName>
