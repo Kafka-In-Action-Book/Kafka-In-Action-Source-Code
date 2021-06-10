@@ -1,10 +1,9 @@
 package org.kafkainaction.consumer;
 
-import org.kafkainaction.Alert;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.kafkainaction.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +23,10 @@ public class HelloWorldConsumer {
     props.put("group.id", "helloconsumer");
     props.put("enable.auto.commit", "true");
     props.put("auto.commit.interval.ms", "1000");
-    props.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
-    props.put("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer");
+    props.put("key.deserializer",
+              "org.apache.kafka.common.serialization.LongDeserializer");
+    props.put("value.deserializer",
+              "io.confluent.kafka.serializers.KafkaAvroDeserializer");    //<1>
     props.put("schema.registry.url", "http://localhost:8081");
 
     HelloWorldConsumer helloWorldConsumer = new HelloWorldConsumer();
@@ -36,11 +37,11 @@ public class HelloWorldConsumer {
 
   private void consume(Properties props) {
     try (KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<>(props)) {
-      consumer.subscribe(Collections.singletonList("avrotest"));
+      consumer.subscribe(Collections.singletonList("avrotest"));    //<2>
 
       while (keepConsuming) {
         ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(100));
-        for (ConsumerRecord<Long, Alert> record : records) {
+        for (ConsumerRecord<Long, Alert> record : records) {    //<3>
           log.info("[Consumer Record] offset = {}, key = {}, value = {}",
                    record.offset(),
                    record.key(),
@@ -53,5 +54,4 @@ public class HelloWorldConsumer {
   private void shutdown() {
     keepConsuming = false;
   }
-
 }

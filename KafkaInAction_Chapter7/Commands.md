@@ -2,12 +2,12 @@
 
 ## Listing cluster topics
 
-	kafka-topics.sh --zookeeper localhost:2181 --list
+	kafka-topics.sh --bootstrap-server localhost:9092 --list
 
 
 ## Creating a topic
 
-	kafka-topics.sh --zookeeper localhost:2181 --create \ 
+	kafka-topics.sh --bootstrap-server localhost:9092 --create \ 
 	--topic my_test_topic \ 
 	--replication-factor 2 \ 
 	--partitions 2
@@ -15,12 +15,12 @@
     
 ## Adding more partitions to an existing topic
 
-	kafka-topics.sh --zookeeper localhost:2181 --alter \
+	kafka-topics.sh --bootstrap-server localhost:9092 --alter \
 	--topic my_test_topic --partitions 3 
     
 ## Deleting a topic
 
-	kafka-topics.sh --zookeeper localhost:2181 --delete \ // #A <1>
+	kafka-topics.sh --bootstrap-server localhost:9092 --delete \ // #A <1>
 	--topic my_test_topic
 	
 	
@@ -31,14 +31,14 @@
 	
 ## Alter command to edit configuration 
 
-	kafka-configs.sh --zookeeper localhost:2181 --alter \ 
+	kafka-configs.sh --bootstrap-server localhost:9092 --alter \ 
 	--entity-type topics 
 	--entity-name test  
 	--add-config segment.ms=60000
 	
 ## Delete altered config
 
-	kafka-configs.sh --zookeeper localhost:2181 --alter \ 
+	kafka-configs.sh --bootstrap-server localhost:9092 --alter \ 
 	--entity-type topics --entity-name test \
 	--delete-config segment.ms
 	
@@ -52,18 +52,18 @@
 
 ## Generate a reassign plan
 
-	kafka-reassign-partitions.sh --zookeeper localhost:2181 --generate \ 
+	kafka-reassign-partitions.sh --bootstrap-server localhost:9092 --generate \ 
 	--topics-to-move-json-file topics.json \ 
 	--broker-list 0,1,2 
 	
 ## Executing our plan
 
-	kafka-reassign-partitions.sh --zookeeper localhost:2181 --execute \ 
+	kafka-reassign-partitions.sh --bootstrap-server localhost:9092 --execute \ 
 	--reassignment-json-file plan.json
 	
 ## Verify our execution
 
-	kafka-reassign-partitions.sh --zookeeper localhost:2181 --verify \ 
+	kafka-reassign-partitions.sh --bootstrap-server localhost:9092 --verify \ 
 	--reassignment-json-file plan.json
 	
 ## Create a Plan Adding a Replica
@@ -81,12 +81,12 @@
 	
 ## Executing our plan to increase replica count
 
-	kafka-reassign-partitions.sh --zookeeper localhost:2181 --execute \ 
+	kafka-reassign-partitions.sh --bootstrap-server localhost:9092 --execute \ 
 	--reassignment-json-file replicacount.json
 	
 ## Electing Preferred Leader
 
-	kafka-preferred-replica-election.sh --zookeeper localhost:2181 
+	kafka-preferred-replica-election.sh --bootstrap-server localhost:9092 
 	
 ## Example Preferred Leader Json
 
@@ -98,7 +98,7 @@
 	
 ## Creating a compacted topic
 
-	kafka-topics.sh --zookeeper localhost:2181 --create \
+	kafka-topics.sh --bootstrap-server localhost:9092 --create \
 	--topic compact_test_topic --replication-factor 2 --partitions 2 \
 	--config cleanup.policy=compact 
 

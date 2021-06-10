@@ -7,7 +7,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>chapter7</artifactId>
+    <artifactId>chapter7-no-java</artifactId>
     <description>Topics and Partitions</description>
     
     <build>

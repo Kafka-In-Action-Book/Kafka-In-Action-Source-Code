@@ -1,35 +1,29 @@
 package org.kafkainaction.producer;
 
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-
 import org.kafkainaction.callback.AlertCallback;
 import org.kafkainaction.model.Alert;
 
+import java.util.Properties;
+
 public class AlertProducer {
-	
-	public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-		Properties props = new Properties();
-		props.put("bootstrap.servers", "localhost:9092,localhost:9093");
-		props.put("key.serializer", "org.kafkainaction.serde.AlertKeySerde");
-		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-		//props.put("partitioner.class", 				"org.kafkainaction.partitioner.AlertLevelPartitioner"); 
-		props.put(
-				   "interceptor.classes",
-				   "org.kafkainaction.producer.AlertProducerMetricsInterceptor");
+  public static void main(String[] args) {
 
-		Producer<Alert, String> producer = new KafkaProducer<Alert, String>(props);
-		Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
-		ProducerRecord<Alert, String> producerRecord = new ProducerRecord<Alert, String>("alert", alert, alert.getAlertMessage()); // #A <1>
-		 
-		producer.send(producerRecord, new AlertCallback());
+    Properties props = new Properties();
+    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    props.put("key.serializer", "org.kafkainaction.serde.AlertKeySerde");
+    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    props.put("interceptor.classes", "org.kafkainaction.producer.AlertProducerMetricsInterceptor");
 
-		producer.close();
-	}
+    try (Producer<Alert, String> producer = new KafkaProducer<Alert, String>(props)) {
+
+      Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
+      var producerRecord = new ProducerRecord<>("alert", alert, alert.getAlertMessage()); //<1>
+      producer.send(producerRecord, new AlertCallback());
+    }
+  }
 
 }

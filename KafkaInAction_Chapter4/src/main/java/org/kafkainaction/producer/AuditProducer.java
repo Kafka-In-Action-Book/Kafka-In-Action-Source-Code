@@ -16,12 +16,12 @@ public class AuditProducer {
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-    Properties props = new Properties();
+    Properties props = new Properties();    //<1>
     props.put("bootstrap.servers", "localhost:9092,localhost:9093");
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("acks", "all"); // #B <2>
-    props.put("retries", "3"); // #C <3>
+    props.put("acks", "all");   //<2>
+    props.put("retries", "3");    //<3>
     props.put("max.in.flight.requests.per.connection", "1");
 
     try (Producer<String, String> producer = new KafkaProducer<>(props)) {

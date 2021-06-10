@@ -10,7 +10,7 @@
         <java.version>11</java.version>
         <kafka.version>2.7.1</kafka.version>
         <kafka.scala.version>2.13</kafka.scala.version>
-        <avro.version>1.10.0</avro.version>
+        <avro.version>1.10.2</avro.version>
         <confluent.version>6.1.1</confluent.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -39,13 +39,6 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>${kafka.version}</version>
-        </dependency>
-        <!-- explicit transitive dependency -->
-        <!-- see https://github.com/apache/kafka/blob/149897976214a769a35cf87eecf9c02221f8d597/build.gradle#L994 -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.10.5</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>

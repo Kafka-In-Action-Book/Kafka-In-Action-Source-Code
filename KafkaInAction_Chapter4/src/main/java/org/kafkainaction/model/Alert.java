@@ -3,14 +3,14 @@ package org.kafkainaction.model;
 import java.io.Serializable;
 
 public class Alert implements Serializable {
-  private static final long serialVersionUID = 5224868980935721414L;
 
   private final int alertId;
   private String stageId;
   private final String alertLevel;
   private final String alertMessage;
 
-  public Alert(int alertId, String stageId, String alertLevel, String alertMessage) {
+  public Alert(int alertId, String stageId,
+               String alertLevel, String alertMessage) {   //<1>
     this.alertId = alertId;
     this.stageId = stageId;
     this.alertLevel = alertLevel;

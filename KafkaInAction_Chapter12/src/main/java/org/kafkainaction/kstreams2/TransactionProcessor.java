@@ -1,14 +1,20 @@
-package com.kafkainaction.kstreams2;
+package org.kafkainaction.kstreams2;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.Printed;
 import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.kstream.ValueTransformer;
+import org.apache.kafka.streams.kstream.ValueTransformerSupplier;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
@@ -20,14 +26,17 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
-import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 
+import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.*;
+import static org.apache.kafka.common.metrics.Sensor.RecordingLevel.TRACE;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.BOOTSTRAP_SERVERS_CONFIG;
+import static org.apache.kafka.streams.StreamsConfig.METRICS_RECORDING_LEVEL_CONFIG;
 
 public class TransactionProcessor {
 
@@ -63,13 +72,18 @@ public class TransactionProcessor {
                                                                                fundsStoreName);
     Properties props = new Properties();
     props.put(APPLICATION_ID_CONFIG, "transaction-processor");
-    props.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-    props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+    props.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+    props.put(SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+    props.put(METRICS_RECORDING_LEVEL_CONFIG, TRACE.name);
 
-    transactionProcessor
-        .createTopics(props, transactionsInputTopicName, transactionSuccessTopicName, transactionFailedTopicName);
+    transactionProcessor.createTopics(props,
+                                      transactionsInputTopicName,
+                                      transactionSuccessTopicName,
+                                      transactionFailedTopicName);
 
     StreamsBuilder builder = new StreamsBuilder();
+
+    // TODO use default serde config instead
     final SpecificAvroSerde<Transaction> transactionRequestAvroSerde = SchemaSerdes.getSpecificAvroSerde(props);
     final SpecificAvroSerde<TransactionResult> transactionResultAvroSerde = SchemaSerdes.getSpecificAvroSerde(props);
     final SpecificAvroSerde<Funds> fundsSerde = SchemaSerdes.getSpecificAvroSerde(props);
@@ -79,6 +93,7 @@ public class TransactionProcessor {
                                                             transactionResultAvroSerde,
                                                             fundsSerde);
 
+    System.out.println("topology = " + topology.describe().toString());
     final KafkaStreams streams = new KafkaStreams(topology, props);
     final CountDownLatch latch = new CountDownLatch(1);
 
@@ -103,42 +118,65 @@ public class TransactionProcessor {
   private void createTopics(Properties p, String... names) {
     try (AdminClient client = AdminClient.create(p)) {
 
-      final List<NewTopic> topicList = Arrays.stream(names)
-          .map(name -> new NewTopic(name, 6, (short) 1))
-          .collect(Collectors.toList());
+      final List<NewTopic> topicList =
+          Arrays.stream(names)
+              .map(name -> new NewTopic(name, 6, (short) 1))
+              .collect(Collectors.toList());
       client.createTopics(topicList);
     }
   }
 
   public Topology topology(final StreamsBuilder builder,
-                           SpecificAvroSerde<Transaction> transactionRequestAvroSerde,
-                           SpecificAvroSerde<TransactionResult> transactionResultAvroSerde,
-                           SpecificAvroSerde<Funds> fundsSerde) {
+                           final SpecificAvroSerde<Transaction> transactionRequestAvroSerde,
+                           final SpecificAvroSerde<TransactionResult> transactionResultAvroSerde,
+                           final SpecificAvroSerde<Funds> fundsSerde) {
 
-    final StoreBuilder<KeyValueStore<String, Funds>>
-        stateStoreBuilder =
-        Stores.keyValueStoreBuilder(Stores.persistentKeyValueStore(this.fundsStoreName),
-                                    Serdes.String(), fundsSerde);
-    builder.addStateStore(stateStoreBuilder);
+    final Serde<String> stringSerde = Serdes.String();
+    storesBuilder(this.fundsStoreName, stringSerde, fundsSerde);
 
-    KStream<String, Transaction> transactionStream = builder.stream(this.transactionsInputTopicName,
-                                                                    Consumed.with(Serdes.String(),
-                                                                                  transactionRequestAvroSerde));
-    KStream<String, TransactionResult>
-        resultStream =
-        transactionStream.transformValues(() -> new TransactionTransformer(this.fundsStoreName), this.fundsStoreName);
+    KStream<String, Transaction> transactionStream =
+        builder.stream(this.transactionsInputTopicName,
+                       Consumed.with(stringSerde, transactionRequestAvroSerde));
+
+    transactionStream.print(Printed.<String, Transaction>toSysOut().withLabel("transactions logger"));
+
+    transactionStream.toTable(Materialized.<String, Transaction, KeyValueStore<Bytes, byte[]>>as("latest-transactions")
+                                  .withKeySerde(stringSerde)
+                                  .withValueSerde(transactionRequestAvroSerde));
+    
+    KStream<String, TransactionResult> resultStream =
+        transactionStream.transformValues(new ValueTransformerSupplier<>() {
+          @Override
+          public ValueTransformer<Transaction, TransactionResult> get() {
+            return new TransactionTransformer(fundsStoreName);
+          }
+
+          @Override
+          public Set<StoreBuilder<?>> stores() {
+            return Set.of(TransactionProcessor.storesBuilder(fundsStoreName, stringSerde, fundsSerde));
+          }
+        });
+
+/*    final KStream<String, TransactionResult> resultStream =
+        transactionStream.transformValues(() -> new TransactionTransformer());*/
 
     resultStream
         .filter(TransactionProcessor::success)
-        .to(this.transactionSuccessTopicName,
-            Produced.with(Serdes.String(), transactionResultAvroSerde));
+        .to(this.transactionSuccessTopicName, Produced.with(Serdes.String(), transactionResultAvroSerde));
 
     resultStream
         .filterNot(TransactionProcessor::success)
-        .to(this.transactionFailedTopicName,
-            Produced.with(Serdes.String(), transactionResultAvroSerde));
+        .to(this.transactionFailedTopicName, Produced.with(Serdes.String(), transactionResultAvroSerde));
 
     return builder.build();
+  }
+
+  protected static StoreBuilder<KeyValueStore<String, Funds>> storesBuilder(final String storeName,
+                                                                            final Serde<String> keySerde,
+                                                                            final SpecificAvroSerde<Funds> valueSerde) {
+    return Stores.keyValueStoreBuilder(Stores.persistentKeyValueStore(storeName),
+                                       keySerde,
+                                       valueSerde);
   }
 
 

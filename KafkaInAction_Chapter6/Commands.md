@@ -23,16 +23,16 @@
     
 ## Describe Topic
 
-    $ ./kafka-topics.sh --describe --zookeeper localhost:2181 --topic replica-test 
+    $ ./kafka-topics.sh --describe --bootstrap-server localhost:9092 --topic replica-test 
     
-    //Sample output
+    # Sample output
 	Topic:replica-test	PartitionCount:1	ReplicationFactor:3	Configs:
 	Topic: replica-test	Partition: 0	Leader: 0	Replicas: 1,0,2	Isr: 0,2
 	
 	
 ## Under-replicated-partitions flag
 
-	./kafka-topics.sh --zookeeper localhost:2181 --describe --under-replicated-partitions 
+	./kafka-topics.sh --bootstrap-server localhost:9092 --describe --under-replicated-partitions 
 
-	//Sample output
+	#Sample output
 	Topic: replica-test	Partition: 0	Leader: 0	Replicas: 1,0,2	Isr: 0,2
