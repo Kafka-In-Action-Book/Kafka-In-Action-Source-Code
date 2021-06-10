@@ -1,4 +1,4 @@
-package com.kafkainaction.kstreams2;
+package org.kafkainaction.kstreams2;
 
 import org.apache.kafka.streams.kstream.ValueTransformer;
 import org.apache.kafka.streams.processor.ProcessorContext;
@@ -15,14 +15,17 @@ import java.util.Optional;
 import static org.kafkainaction.ErrorType.INSUFFICIENT_FUNDS;
 import static org.kafkainaction.TransactionType.DEPOSIT;
 
-public class TransactionTransformer
-    implements ValueTransformer<Transaction, TransactionResult> {
+public class TransactionTransformer implements ValueTransformer<Transaction, TransactionResult> {
 
   private static final Logger log = LoggerFactory.getLogger(TransactionTransformer.class);
 
   private final String stateStoreName;
-
   private KeyValueStore<String, Funds> store;
+
+  public TransactionTransformer() {
+    // default name for funds store
+    this.stateStoreName = "fundsStore";
+  }
 
   public TransactionTransformer(final String stateStoreName) {
     this.stateStoreName = stateStoreName;
@@ -43,8 +46,7 @@ public class TransactionTransformer
   }
 
   private Funds getFunds(String account) {
-    return Optional.ofNullable(store.get(account))
-        .orElseGet(() -> createEmptyFunds(account));
+    return Optional.ofNullable(store.get(account)).orElseGet(() -> createEmptyFunds(account));
   }
 
   private boolean hasEnoughFunds(Transaction transaction) {
@@ -52,9 +54,8 @@ public class TransactionTransformer
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void init(ProcessorContext context) {
-    store = (KeyValueStore<String, Funds>) context.getStateStore(stateStoreName);
+    store = context.getStateStore(stateStoreName);
   }
 
   @Override
@@ -90,3 +91,4 @@ public class TransactionTransformer
     return updateFunds(transaction.getAccount(), transaction.getAmount().negate());
   }
 }
+

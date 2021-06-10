@@ -1,8 +1,16 @@
 = Commands used in Chapter 12
 
+== start or components of tht Confluent Platform
+
+docker-compose up -d
+
 == Create an interactive session with ksqlDB
 
 docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
+
+== reset offsets
+
+SET 'auto.offset.reset' = 'earliest';
 
 == Create an interactive session with ksqlDB
 
@@ -87,13 +95,10 @@ CREATE TABLE ACCOUNT (
   countryAddress STRING,
   creationDate BIGINT,
   updateDate BIGINT
-) WITH (
-  KAFKA_TOPIC = 'account',
-  VALUE_FORMAT='avro',
-    PARTITIONS=6, 
-    REPLICAS=1    
-);
+) WITH (KAFKA_TOPIC = 'account', VALUE_FORMAT='avro', PARTITIONS=6, REPLICAS=1);
 ----
+
+CREATE TABLE ACCOUNT (number INT PRIMARY KEY) WITH (KAFKA_TOPIC = 'account', VALUE_FORMAT='avro', PARTITIONS=6, REPLICAS=1);
 
 [source,sql]
 ----
@@ -103,10 +108,8 @@ CREATE STREAM TRANSACTION_SUCCESS (
   funds STRUCT<account STRING, balance DECIMAL(9, 2)>,
   success boolean,
   errorType STRING
-) WITH (
-  kafka_topic='transaction-success',
-  value_format='avro'
-);
+  --errorType STRUCT<type STRING>
+) WITH (KAFKA_TOPIC='transaction-success', VALUE_FORMAT='avro');
 ----
 
 [source,sql]

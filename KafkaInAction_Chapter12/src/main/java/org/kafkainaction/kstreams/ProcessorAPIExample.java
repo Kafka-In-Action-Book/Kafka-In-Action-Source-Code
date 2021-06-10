@@ -28,8 +28,8 @@ public class ProcessorAPIExample {
 		Topology topology = new Topology();
 		topology = topology.addSource(LATEST, "input", stringDeserializer, stringDeserializer, "input-topic");
 
-		topology = topology.addProcessor("testProcessor", () -> new TestProcessor(), "input");
-
+		//topology = topology.addProcessor("testProcessor", () -> new TestProcessor(), "input");
+		
 		topology = topology.addSink("Output-Sink1", "sink-topic1", stringSerializer, stringSerializer, "testProcessor");
 
 		topology = topology.addSink("Output-Sink2", "sink-topic2", stringSerializer, stringSerializer, "testProcessor");

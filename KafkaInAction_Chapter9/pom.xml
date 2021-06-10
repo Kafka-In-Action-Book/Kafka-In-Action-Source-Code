@@ -1,24 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
+    <parent>
         <artifactId>Kafka-In-Action</artifactId>
-		<groupId>org.kafkainaction</groupId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
+        <groupId>org.kafkainaction</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>chapter9</artifactId>
-	<description>Administration - Cluster Tools, Logging, and Monitoring</description>
+    <artifactId>chapter9-no-java</artifactId>
+    <description>Administration - Cluster Tools, Logging, and Monitoring</description>
 
-	<build>
-		<finalName>chapter9</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <finalName>chapter9</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

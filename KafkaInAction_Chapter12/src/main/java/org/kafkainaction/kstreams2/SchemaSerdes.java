@@ -1,4 +1,4 @@
-package com.kafkainaction.kstreams2;
+package org.kafkainaction.kstreams2;
 
 import org.apache.avro.specific.SpecificRecord;
 

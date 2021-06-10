@@ -5,16 +5,16 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AlertCallback implements Callback {
+public class AlertCallback implements Callback {    //<1>
 
   private static final Logger log = LoggerFactory.getLogger(AlertCallback.class);
 
-  public void onCompletion(RecordMetadata metadata, Exception exception) {
+  public void onCompletion(RecordMetadata metadata, Exception exception) {    //<2>
     if (exception != null) {
       log.error("Error sending message:", exception);
     } else {
-      log.info("Message sent: offset = {}, topic = {}, timestamp = {}", metadata.offset(), metadata.topic(),
-               metadata.timestamp());
+      log.info("Message sent: offset = {}, topic = {}, timestamp = {}",
+               metadata.offset(), metadata.topic(), metadata.timestamp());
     }
   }
 }

@@ -6,9 +6,9 @@
         <groupId>org.kafkainaction</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-	
+
     <artifactId>chapter10</artifactId>
-    <description>Protecting Kafka</description>
+    <description>Protecting Kafka (no Java)</description>
 
     <build>
         <finalName>chapter10</finalName>

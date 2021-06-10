@@ -1,39 +1,35 @@
 package org.kafkainaction.serde;
 
-import org.kafkainaction.model.Alert;
-
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
+import org.kafkainaction.model.Alert;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class AlertKeySerde implements Serializer<Alert>, Deserializer<Alert> {
+public class AlertKeySerde implements Serializer<Alert>,
+                                      Deserializer<Alert> {   //<1>
 
-  public void close() {
-    // nothing needed
+  public byte[] serialize(String topic, Alert key) {    //<2>
+    if (key == null) {
+      return null;
+    }
+    return key.getStageId().getBytes(StandardCharsets.UTF_8);   //<3>
   }
 
-  public void configure(Map<String, ?> configs, boolean isKey) {
-    // nothing needed
-  }
-
-  public Alert deserialize(String topic, byte[] value) {
+  public Alert deserialize(String topic, byte[] value) {    //<4>
     //We will leave this part for later
     return null;
   }
 
-  public byte[] serialize(String topic, Alert value) {
-    if (value == null) {
-      return null;
-    }
+  @Override
+  public void configure(final Map<String, ?> configs, final boolean isKey) {
+    Serializer.super.configure(configs, isKey);
+  }
 
-    try {
-      return value.getStageId().getBytes("UTF8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
-
+  @Override
+  public void close() {
+    Serializer.super.close();
   }
 
 }
