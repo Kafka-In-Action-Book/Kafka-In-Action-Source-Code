@@ -72,7 +72,7 @@ public class TransactionProcessor {
                                                                                fundsStoreName);
     Properties props = new Properties();
     props.put(APPLICATION_ID_CONFIG, "transaction-processor");
-    props.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+    props.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     props.put(SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
     props.put(METRICS_RECORDING_LEVEL_CONFIG, TRACE.name);
 

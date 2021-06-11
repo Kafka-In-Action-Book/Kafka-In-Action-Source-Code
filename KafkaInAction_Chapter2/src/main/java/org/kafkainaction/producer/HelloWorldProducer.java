@@ -10,6 +10,7 @@ public class HelloWorldProducer {
 
   public static void main(String[] args) {
 
+    // docker exec -it broker1 /usr/bin/kafka-topics --bootstrap-server localhost:29092 --create --topic helloworld
     Properties producerProperties = new Properties();   //<1>
     producerProperties.put("bootstrap.servers",
                            "localhost:9092,localhost:9093,localhost:9094");   //<2>

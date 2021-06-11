@@ -31,7 +31,7 @@ public class AccountProducerTest {
   public static void main(String[] args) {
 
     var p = new Properties();
-    p.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+    p.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     p.put(SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
     p.put(CLIENT_ID_CONFIG, "account-producer");
     p.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -54,9 +54,6 @@ public class AccountProducerTest {
                                         LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         producer.send(new ProducerRecord<>(ACCOUNT_TOPIC_NAME, valueOf(account.getNumber()), account));
       });
-
     }
-
   }
-
 }

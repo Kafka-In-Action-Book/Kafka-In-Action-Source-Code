@@ -31,7 +31,7 @@ public class TransactionProducerTest {
   public static void main(String[] args) {
 
     var p = new Properties();
-    p.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+    p.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     p.put(SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
     p.put(CLIENT_ID_CONFIG, "transactions-producer");
     p.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

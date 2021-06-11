@@ -10,7 +10,19 @@ Here are some notes regarding the source code:
 This project was built with the following versions:
 
 1. Java 11
-2. Apache Maven 3.5.0
+2. Apache Maven 3.6.x.
+We provide [Maven Wrapper](https://github.com/takari/maven-wrapper), so you don't need to install Maven yourself.
+
+### How to build
+
+Run following command in the root of this project to build all examples:
+
+    ./mvnw verify 
+
+Run following command in the root of this project to build specific example.
+For example, to build only example from Chapter 12 run:
+
+    ./mvnw --projects KafkaInAction_Chapter12 verify
 
 ### IDE setup
  
@@ -28,10 +40,11 @@ Run the following in a directory (without spaces in the path) once you get the a
 2. Run bin/zookeeper-server-start.sh config/zookeeper.properties
 3. Modify the Kafka server configs
 
-    cp config/server.properties config/server0.properties
-    cp config/server.properties config/server1.properties
-    cp config/server.properties config/server2.properties
-
+	
+	cp config/server.properties config/server0.properties
+	cp config/server.properties config/server1.properties
+	cp config/server.properties config/server2.properties
+	
 	vi config/server0.properties
 	broker.id=0
 	listeners=PLAINTEXT://localhost:9092
@@ -49,14 +62,16 @@ Run the following in a directory (without spaces in the path) once you get the a
 	
 4. Start the Kafka Brokers:
     
+
     bin/kafka-server-start.sh config/server0.properties
     bin/kafka-server-start.sh config/server1.properties
     bin/kafka-server-start.sh config/server2.properties
  
 ### Stopping Kafka
+
 1. To stop Kafka go to <install dir>/kafka_2.13-2.7.1/
-2. Run bin/kafka-server-stop.sh
-3. Run bin/zookeeper-server-stop.sh
+1. Run bin/kafka-server-stop.sh
+1. Run bin/zookeeper-server-stop.sh
 
 ### Code by Chapter
 All the code from the book can be found in the project corresponding to the chapter.
@@ -69,10 +84,10 @@ The examples will usually write out to topics and print to the console.
 
 ### Shell Scripts
 
-In the Chapter 2 project, I have included a couple of scripts if you want to use them under src/main/resources.
+In the Chapter 2 project, we have included a couple of scripts if you want to use them under `src/main/resources`.
 
 They include:
-* starteverything.sh //This will start your ZooKeeper and Kafka Brokers (you will still have to go through the first time setup with Appendix A before using this.)
+* `starteverything.sh` //This will start your ZooKeeper and Kafka Brokers (you will still have to go through the first time setup with Appendix A before using this.)
 * stopeverything.sh // Will stop ZooKeeper and your brokers
 * portInUse.sh // If you get a port in use error on startup, this script will kill all of the processes using those ports (assuming you are using the same ports as in Appendix A setup).
 

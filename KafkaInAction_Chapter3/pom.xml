@@ -27,6 +27,9 @@
         <finalName>chapter3</finalName>
         <plugins>
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro-maven-plugin</artifactId>
                 <version>${avro.version}</version>

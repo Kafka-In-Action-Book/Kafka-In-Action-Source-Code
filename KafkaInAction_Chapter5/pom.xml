@@ -13,5 +13,10 @@
 
     <build>
         <finalName>chapter5</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
