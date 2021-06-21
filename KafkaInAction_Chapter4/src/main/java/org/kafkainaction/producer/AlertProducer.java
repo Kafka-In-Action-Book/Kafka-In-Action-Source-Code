@@ -16,6 +16,7 @@ public class AlertProducer {
     props.put("bootstrap.servers", "localhost:9092,localhost:9093");
     props.put("key.serializer", "org.kafkainaction.serde.AlertKeySerde");   //<1>
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    /** Use {@link org.kafkainaction.partitioner.AlertLevelPartitioner} to determine partition */
     props.put("partitioner.class", "org.kafkainaction.partitioner.AlertLevelPartitioner");    //<2>
 
     try (Producer<Alert, String> producer = new KafkaProducer<>(props)) {

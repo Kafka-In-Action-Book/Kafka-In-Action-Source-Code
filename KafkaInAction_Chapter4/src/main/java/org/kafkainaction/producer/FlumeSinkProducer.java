@@ -10,6 +10,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.stream.Stream;
+import org.kafkainaction.callback.AlertCallback;
+
 
 @SuppressWarnings("unused")
 public class FlumeSinkProducer {
@@ -23,8 +25,8 @@ public class FlumeSinkProducer {
 
     try (Producer<String, String> producer = new KafkaProducer<>(props)) {
 
-      ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, null,
-                                                                           "event");
+      ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, null, "event");
+      producer.send(producerRecord, new AlertCallback());
     }
 
   }
