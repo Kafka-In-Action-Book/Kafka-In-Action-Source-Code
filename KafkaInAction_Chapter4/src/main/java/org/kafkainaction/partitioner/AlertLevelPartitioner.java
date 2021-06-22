@@ -16,16 +16,15 @@ public class AlertLevelPartitioner implements Partitioner {   //<1>
                        final Object value,
                        final byte[] valueBytes,
                        final Cluster cluster) {
-
+    
     final List<PartitionInfo> partitionMetaList =
         cluster.availablePartitionsForTopic(topic);
-    final int partitionMod = partitionMetaList.size() - 1;
     final int criticalPartition = 0;
 
     final String key = ((Alert) objectKey).getAlertLevel();
 
     return key.contains("CRITICAL") ?
-           criticalPartition : Math.abs(key.hashCode()) % partitionMod;   //<2>
+           criticalPartition : Math.abs(key.hashCode()) % partitionMetaList.size();   //<2>
   }
 
   @Override
