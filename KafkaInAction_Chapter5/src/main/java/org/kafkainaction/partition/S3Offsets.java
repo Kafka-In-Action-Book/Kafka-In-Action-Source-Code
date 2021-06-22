@@ -6,19 +6,27 @@ import org.apache.kafka.common.TopicPartition;
 
 import java.util.Collection;
 
-public class MaintainOffsetsOnRebalance implements ConsumerRebalanceListener {  //<1>
+public class S3Offsets implements ConsumerRebalanceListener {  //<1>
 
   private final KafkaConsumer<String, String> consumer;
 
   public void onPartitionsRevoked(Collection<TopicPartition> partitions) {    //<2>
-    for (TopicPartition partition : partitions) {
-      saveOffsetInStorage(consumer.position(partition));
-    }
+    storeInS3(partitions);
   }
 
   public void onPartitionsAssigned(Collection<TopicPartition> partitions) {   //<3>
+    getFromS3(partitions);
+  }
+  
+  private void getFromS3(Collection<TopicPartition> partitions) {
     for (TopicPartition partition : partitions) {
       consumer.seek(partition, readOffsetFromStorage(partition));
+    }
+  }
+  
+  private void storeInS3(Collection<TopicPartition> partitions) {
+    for (TopicPartition partition : partitions) {
+      saveOffsetInStorage(consumer.position(partition));
     }
   }
 
@@ -31,7 +39,7 @@ public class MaintainOffsetsOnRebalance implements ConsumerRebalanceListener {  
     // ADD YOUR CUSTOM LOGIC HERE	
   }
 
-  public MaintainOffsetsOnRebalance(KafkaConsumer<String, String> consumer) {
+  public S3Offsets(KafkaConsumer<String, String> consumer) {
     super();
     this.consumer = consumer;
   }
