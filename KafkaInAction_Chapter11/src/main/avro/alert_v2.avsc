@@ -1,5 +1,5 @@
 {
-  "namespace": "com.kakfainaction.avro",
+  "namespace": "org.kafkainaction.avro",
   "type": "record",
   "name": "Alert",
   "fields": [

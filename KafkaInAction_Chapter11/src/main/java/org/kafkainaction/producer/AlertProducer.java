@@ -1,6 +1,6 @@
 package org.kafkainaction.producer;
 
-import com.kakfainaction.avro.Alert;
+import org.kafkainaction.avro.Alert;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Calendar;
 import java.util.Properties;
 
-import static com.kakfainaction.avro.AlertStatus.Critical;
+import static org.kafkainaction.avro.AlertStatus.Critical;
 
 public class AlertProducer {
 
@@ -30,6 +30,8 @@ public class AlertProducer {
       alert.setSensorId(12345L);
       alert.setTime(Calendar.getInstance().getTimeInMillis());
       alert.setStatus(Critical);
+      /** Uncomment the following line if alert_v2.avsc is the latest Alert model */
+      alert.setRecoveryDetails("RecoveryDetails");
       log.info(alert.toString());
 
       ProducerRecord<Long, Alert> producerRecord = new ProducerRecord<>("avrotest", alert.getSensorId(), alert); // <4>

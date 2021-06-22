@@ -26,6 +26,7 @@ public class AlertConsumer {
     props.put("bootstrap.servers", "localhost:9092,localhost:9093");
     props.put("enable.auto.commit", "false");
     props.put("group.id", "alert");
+    /** Deserialize key using {@link org.kafkainaction.serde.AlertKeySerde} */
     props.put("key.deserializer", "org.kafkainaction.serde.AlertKeySerde");
     props.put("value.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");

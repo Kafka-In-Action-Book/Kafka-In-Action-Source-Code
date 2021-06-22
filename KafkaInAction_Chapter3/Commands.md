@@ -2,7 +2,7 @@
 
 ## Chapter 3 Specific Notes
 
-* The commands and scripts are meant to be ran from your Kafka root directory: i.e. you should see the folder `bin`, `config`, etc when you do an `ls` in this directory.
+* The commands and scripts are meant to be run from your Kafka root directory: i.e. you should see the folder `bin`, `config`, etc when you do an `ls` in this directory.
 
 * If you get a port in use exception: kill the process related to that port. 
 For example, on a Mac, you can do the following command: `lsof -t -i tcp:8083 | xargs kill` if the `connect-standalone` process is still running, etc.
@@ -14,7 +14,7 @@ We are going to start fresh.
 
 ### Download for Confluent Open Source
 
-* https://www.confluent.io/download/
+* https://www.confluent.io/previous-versions
 Select the Confluent Open Source version 6.1.1 or above and unzip that archive.
 
 * install Confluent CLI https://docs.confluent.io/current/cli/installing.html

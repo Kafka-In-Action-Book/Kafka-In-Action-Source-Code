@@ -1,6 +1,6 @@
 package org.kafkainaction.consumer;
 
-import com.kakfainaction.avro.Alert;
+import org.kafkainaction.avro.Alert;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -22,8 +22,8 @@ public class AlertConsumer {
     props.put("group.id", "alertinterceptor");
     props.put("enable.auto.commit", "true");
     props.put("auto.commit.interval.ms", "1000");
-    props.put("key.serializer", "org.apache.kafka.common.serialization.LongDeserializer");
-    props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer"); // <1>
+    props.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
+    props.put("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer"); // <1>
     props.put("schema.registry.url", "http://localhost:8081"); // <2>
 
     KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<Long, Alert>(props); //C <3>

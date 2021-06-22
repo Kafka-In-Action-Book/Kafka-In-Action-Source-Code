@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 bin/kafka-server-stop.sh
-bin/zookeeper-server-stop.sh 
+bin/zookeeper-server-stop.sh
