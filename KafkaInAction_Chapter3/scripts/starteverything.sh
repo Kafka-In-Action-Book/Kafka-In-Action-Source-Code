@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
 sleep 20

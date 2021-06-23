@@ -3,7 +3,7 @@
 ## Creating the helloworld Topic
 
 ```shell script
-bin/kafka-topics.sh --bootstrap-server localhost:909 \
+bin/kafka-topics.sh --bootstrap-server localhost:9092 \
  --create --topic helloworld --partitions 3 --replication-factor 3
 ```
 
