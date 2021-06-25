@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 lsof -t -i tcp:2181 | xargs kill
 lsof -t -i tcp:9092 | xargs kill

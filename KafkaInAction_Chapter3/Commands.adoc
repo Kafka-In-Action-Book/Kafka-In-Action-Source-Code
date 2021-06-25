@@ -13,8 +13,9 @@ We are going to start fresh.
 
 === Download for Confluent Open Source
 
-* https://www.confluent.io/download/
-Select the Confluent Open Source version 6.1.1 or above and unzip that archive.
+* https://www.confluent.io/previous-versions
+Select the «Download Enterprise Tarball» version 6.1.1 or above and unzip that archive.
+Enterprise tarball is https://docs.confluent.io/platform/current/installation/license.html#developer-license[free] for single node installation, and includes JDBC connector jars. 
 * install Confluent CLI https://docs.confluent.io/current/cli/installing.html
 
 === Table create command in the root folder you just downloaded:

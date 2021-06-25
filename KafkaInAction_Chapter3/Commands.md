@@ -15,9 +15,16 @@ We are going to start fresh.
 ### Download for Confluent Open Source
 
 * https://www.confluent.io/previous-versions
-Select the Confluent Open Source version 6.1.1 or above and unzip that archive.
-
+  Select the «Download Community Tarball» version 6.1.1 or above and unzip that archive.
+  Add location of unzipped Confluent Platform to environment variable `$CONFLUENT_HOME`.
+  Add `$CONFLUENT_HOME/bin` to PATH.
+  
 * install Confluent CLI https://docs.confluent.io/current/cli/installing.html
+* install JDBC connector using `confluent-hub` command 
+    
+      confluent-hub install confluentinc/kafka-connect-jdbc:10.2.0
+  
+  and follow the prompts to install the connector
 
 ### Table create command in the root folder you just downloaded:
 

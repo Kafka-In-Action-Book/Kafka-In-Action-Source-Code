@@ -20,7 +20,7 @@ public class AlertProducer {
   public static void main(String[] args) {
 
     Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    props.put("bootstrap.servers", "localhost:9092");
     props.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
     props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer"); // <1>
     props.put("schema.registry.url", "http://localhost:8081"); // <2>
