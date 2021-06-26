@@ -4,10 +4,10 @@
 
 ```shell script
 bin/kafka-topics.sh --bootstrap-server localhost:9092 \
- --create --topic helloworld --partitions 3 --replication-factor 3
+ --create --topic kinaction_helloworld --partitions 3 --replication-factor 3
 ```
 
-You should see the output: `Created topic helloworld.`
+You should see the output: `Created topic kinaction_helloworld.`
 
 ## Verify the Topic
 
@@ -18,14 +18,14 @@ bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 ## Kafka Producer Console Command
 
 ```shell script
-bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic helloworld
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic kinaction_helloworld
 ```
     
 ## Kafka Consumer Console Command
 
 ```shell script
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
---topic helloworld --from-beginning
+--topic kinaction_helloworld --from-beginning
 ```
     
 ## Java Client POM entry

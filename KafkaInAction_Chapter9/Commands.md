@@ -2,17 +2,17 @@
 
 ## Creating the selfserviceTopic Topic
 
-     bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic selfserviceTopic --partitions 2 --replication-factor 2 
+     bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kinaction_selfserviceTopic --partitions 2 --replication-factor 2 
 
-You should see the ouput: `Created topic "selfserviceTopic".`
+You should see the ouput: `Created topic "kinaction_selfserviceTopic".`
 
 ## Kafkacat Producer usage
 
-    kafkacat -P -b localhost:9092 -t selfserviceTopic
+    kafkacat -P -b localhost:9092 -t kinaction_selfserviceTopic
  
 ## Kafkacat Consumer usage
 
-    kafkacat -C -b localhost:9092 -t selfserviceTopic
+    kafkacat -C -b localhost:9092 -t kinaction_selfserviceTopic
 
 ## REST Proxy startup
 
@@ -85,5 +85,5 @@ You should see the ouput: `Created topic "selfserviceTopic".`
 ## Kafka Consumer Group Command to find lag usage
 
     bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 \
-    --describe --group test-consumer
+    --describe --group alert
 

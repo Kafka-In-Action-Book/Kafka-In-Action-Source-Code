@@ -35,7 +35,7 @@ public class HelloWorldConsumer {
 
   private void consume(Properties props) {
     try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
-      consumer.subscribe(Collections.singletonList("helloworld"));  //<2>
+      consumer.subscribe(Collections.singletonList("kinaction_helloworld"));  //<2>
 
       while (keepConsuming) {
         ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));  //<3>

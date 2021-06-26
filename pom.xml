@@ -100,5 +100,6 @@
         <module>KafkaInAction_Chapter10</module>
         <module>KafkaInAction_Chapter11</module>
         <module>KafkaInAction_Chapter12</module>
+        <module>KafkaInAction_AppendixB</module>
     </modules>
 </project>
