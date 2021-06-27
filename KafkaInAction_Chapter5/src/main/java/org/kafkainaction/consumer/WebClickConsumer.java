@@ -37,7 +37,7 @@ public class WebClickConsumer {
       consumer.subscribe(Collections.singletonList("webclicks"));   //<4>
 
       while (keepConsuming) {   //<5>
-        var records = consumer.poll(Duration.ofMillis(100));
+        var records = consumer.poll(Duration.ofMillis(500));
         for (ConsumerRecord<String, String> record : records) {
           log.info("[Consumer Record] offset = {}, key = {}, value = {}",
                    record.offset(), record.key(), record.value());
