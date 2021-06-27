@@ -9,60 +9,27 @@
         -keyalg RSA \
         -storepass masquerade \ 
         -keypass masquerade \
-        -validity 365
+        -validity 999
 
 ## Creating our own Certificate Authority
-
-    openssl req -new -x509 -keyout ca.key -out ca.crt \ 
+      openssl req -new -x509 -keyout cakey.crt -out ca.crt \
       -days 999 -subj '/CN=localhost/OU=TEST/O=MASQUERADE/L=Portland/S=Or/C=US' \
-      -passin pass:masquerade -passout pass:masquerade 
+      -passin pass:masquerade -passout pass:masquerade
+
   
 ## Importing the CA cert into our truststores and signing our keystore
 
-	keytool -keystore kafka.broker0.truststore.jks \ 
-	  -alias CA -import -file ca.crt  \
-	  -keypass masquerade -storepass masquerade
-	
-	keytool -keystore kafka.broker0.keystore.jks \ 
-	  -alias localhost -certreq -file exported.crt \
-	  -storepass masquerade -noprompt
-	
-	openssl x509 -req -CA ca.crt -CAkey cakey.crt \ 
-	  -in exported.crt -out signed.crt -days 365 \
-	  -CAcreateserial -passin pass:masquerade
-	
-	keytool -keystore kafka.broker0.keystore.jks \ 
-	  -alias CA -import -file ca.crt \
-	  -storepass masquerade -noprompt
-	
-	keytool -keystore kafka.broker0.keystore.jks \ 
-	  -alias localhost -import -file signed.crt \
-	  -storepass masquerade -noprompt
-
-
-    keytool -keystore kafka.client.truststore.jks \ 
-    -alias CARoot -import -file ca.crt  -keypass masquerade -storepass masquerade
-    
-    keytool -keystore kafka.server.truststore.jks \ 
-    -alias CARoot -import -file ca.crt  -keypass masquerade -storepass masquerade
-    
-    keytool -keystore kafka.broker0.keystore.jks \ 
-    -alias localhost -certreq -file cert-file -storepass masquerade -noprompt
-    
-    openssl x509 -req -CA ca.crt -CAkey ca.key \ 
-    -in cert-file -out cert-signed -days 365 \
-    -CAcreateserial -passin pass:masquerade 
-    
-    keytool -keystore kafka.broker0.keystore.jks \ 
-    -alias CARoot -import -file ca.crt -storepass masquerade -noprompt
-    
-    keytool -keystore kafka.broker0.keystore.jks \ 
-    -alias localhost -import -file cert-signed -storepass masquerade -noprompt
+    keytool -keystore kafka.client.truststore.jks -alias CA -import -file ca.crt  -keypass masquerade -storepass masquerade
+    keytool -keystore kafka.broker0.truststore.jks -alias CA -import -file ca.crt  -keypass masquerade -storepass masquerade
+    keytool -keystore kafka.broker0.keystore.jks -alias localhost -certreq -file cert-file -storepass masquerade -noprompt
+    openssl x509 -req -CA ca.crt -CAkey cakey.crt -in cert-file -out signed.crt -days 999 -CAcreateserial -passin pass:masquerade 
+    keytool -keystore kafka.broker0.keystore.jks -alias CA -import -file ca.crt -storepass masquerade -noprompt
+    keytool -keystore kafka.broker0.keystore.jks -alias localhost -import -file signed.crt -storepass masquerade -noprompt
 
 ## Broker server properties changes
 
     listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093 
-    ssl.truststore.location=/var/ssl/private/kafka.server.truststore.jks 
+    ssl.truststore.location=/var/ssl/private/kafka.broker0.truststore.jks 
     ssl.truststore.password=masquerade
     ssl.keystore.location=/var/ssl/private/kafka.broker0.keystore.jks 
     ssl.keystore.password=masquerade
@@ -77,9 +44,9 @@
 ## Using SSL Configuration for Command line Clients
 
     kafka-console-producer.sh --broker-list localhost:9093 --topic testSSL \
-     --producer.config client-ssl.properties
+     --producer.config custom-ssl.properties
     kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic testSSL \
-     --consumer.config client-ssl.properties
+     --consumer.config custom-ssl.properties
  
 ## Broker SASL JAAS File
 
@@ -88,7 +55,7 @@
         useKeyTab=true
         storeKey=true
         keyTab=”/var/kafka_server0.keytab”
-        principal=”kafka/kafka0.kia.manning.com@EXAMPLE.COM”;
+        principal=”kafka/kafka0.kia.manning.com@KAFKAINACTION.ORG”;
     };
     
     // Zookeeper client authentication - Kafka being the client
@@ -97,7 +64,7 @@
         useKeyTab=true
         storeKey=true
         keyTab=”/var/kafka_server0.keytab”
-        principal=”kafka/kafka0.kia.manning.com@EXAMPLE.COM”;
+        principal=”kafka/kafka0.kia.manning.com@KAFKAINACTION.ORG”;
     };
 
 ## Java parameter for Kafka server startup to point to the above file content
@@ -118,8 +85,8 @@
     com.sun.security.auth.module.Krb5LoginModule required
     useKeyTab=true
     storeKey=true
-    keyTab="/car/kafkaclient.keytab"
-    principal="kafkaclient@EXAMPLE.COM";
+    keyTab="/var/kafkaclient.keytab"
+    principal="kafkaclient@KAFKAINACTION.ORG";
     };
     
 ## Client SASL JAAS File
