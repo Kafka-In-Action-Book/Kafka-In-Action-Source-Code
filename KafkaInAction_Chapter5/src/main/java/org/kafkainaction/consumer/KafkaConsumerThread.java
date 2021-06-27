@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KafkaConsumerThread implements Runnable {
@@ -25,9 +24,9 @@ public class KafkaConsumerThread implements Runnable {
 
   public void run() {
     try {
-      consumer.subscribe(Collections.singletonList("webclicks"));
+      consumer.subscribe(Arrays.asList("webclicks"));
       while (!stopping.get()) {
-        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
         for (ConsumerRecord<String, String> record : records) {
           log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
         }
