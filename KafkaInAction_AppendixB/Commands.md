@@ -4,5 +4,5 @@
 
 * `brew install librdkafka` - optional 
 * `pip install confluent-kafka`
-* `python `
-* `python `
+* `python pythonproducer.py`
+* `python pythonconsumer.py`
