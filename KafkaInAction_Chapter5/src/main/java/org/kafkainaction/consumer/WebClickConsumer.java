@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class WebClickConsumer {
@@ -34,7 +34,7 @@ public class WebClickConsumer {
 
   private void consume(Properties props) {
     try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {   //<3>
-      consumer.subscribe(Collections.singletonList("webclicks"));   //<4>
+      consumer.subscribe(Arrays.asList("webclicks"));   //<4>
 
       while (keepConsuming) {   //<5>
         var records = consumer.poll(Duration.ofMillis(500));
