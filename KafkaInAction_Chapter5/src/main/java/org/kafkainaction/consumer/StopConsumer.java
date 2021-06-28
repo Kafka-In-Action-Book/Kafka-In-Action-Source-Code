@@ -11,14 +11,14 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class KafkaConsumerThread implements Runnable {
+public class StopConsumer implements Runnable {
 
-  final static Logger log = LoggerFactory.getLogger(KafkaConsumerThread.class);
+  final static Logger log = LoggerFactory.getLogger(StopConsumer.class);
 
   private final KafkaConsumer<String, String> consumer;
   private final AtomicBoolean stopping = new AtomicBoolean(false);
 
-  public KafkaConsumerThread(KafkaConsumer<String, String> consumer) {
+  public StopConsumer(KafkaConsumer<String, String> consumer) {
     this.consumer = consumer;
   }
 

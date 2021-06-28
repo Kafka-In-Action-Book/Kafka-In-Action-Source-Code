@@ -48,6 +48,6 @@
 ## Creating a compacted topic
 
 	kafka-topics.sh --bootstrap-server localhost:9092 --create \
-	--topic kinaction_compact_test_topic --replication-factor 2 --partitions 2 \
+	--topic kinaction_compact --replication-factor 3 --partitions 3 \
 	--config cleanup.policy=compact 
 
