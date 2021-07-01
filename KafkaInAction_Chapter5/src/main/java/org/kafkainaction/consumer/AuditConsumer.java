@@ -36,7 +36,7 @@ public class AuditConsumer {
   private void consume(final Properties props) {
     try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
 
-      consumer.subscribe(List.of("audit"));
+      consumer.subscribe(List.of("kinaction_audit"));
 
       while (keepConsuming) {
         var records = consumer.poll(Duration.ofMillis(100));

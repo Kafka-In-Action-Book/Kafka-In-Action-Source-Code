@@ -19,7 +19,7 @@ public class AlertConsumer {
 
   final static Logger log = LoggerFactory.getLogger(AlertConsumer.class);
   private volatile boolean keepConsuming = true;
-  public static final String TOPIC_NAME = "alert";
+  public static final String TOPIC_NAME = "kinaction_alert";
 
   public static void main(String[] args) {
     Properties props = new Properties();
@@ -43,8 +43,8 @@ public class AlertConsumer {
 
   private void consume(final Properties props) {
     KafkaConsumer<Alert, String> consumer = new KafkaConsumer<>(props);
-    TopicPartition partitionOne = new TopicPartition(TOPIC_NAME, 1);
-    consumer.assign(Collections.singletonList(partitionOne));
+    TopicPartition partitionZero = new TopicPartition(TOPIC_NAME, 0);
+    consumer.assign(Collections.singletonList(partitionZero));
 
     while (keepConsuming) {
       ConsumerRecords<Alert, String> records = consumer.poll(Duration.ofMillis(100));

@@ -13,13 +13,11 @@ import org.slf4j.LoggerFactory;
 public class AlertConsumer {
 
   final static Logger log = LoggerFactory.getLogger(AlertConsumer.class);
-  public static final String TOPIC_NAME = "alert";
-
 
   @SuppressWarnings("resource")
   public ConsumerRecords<Alert, String> getAlertMessages(Properties consumerConfig) {
   	KafkaConsumer<Alert, String> consumer = new KafkaConsumer<>(consumerConfig);
-  	consumer.subscribe(Collections.singletonList("alert"));
+  	consumer.subscribe(Collections.singletonList("kinaction_alert"));
   	return consumer.poll(Duration.ofMillis(1000));
   }
 

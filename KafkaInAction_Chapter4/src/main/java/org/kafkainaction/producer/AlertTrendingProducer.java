@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class HealthTrendingProducer {
+public class AlertTrendingProducer {
 
   private static final Logger log =
-      LoggerFactory.getLogger(HealthTrendingProducer.class);
+      LoggerFactory.getLogger(AlertTrendingProducer.class);
 
   public static void main(String[] args)
       throws InterruptedException, ExecutionException {
@@ -30,7 +30,7 @@ public class HealthTrendingProducer {
     try (Producer<Alert, String> producer = new KafkaProducer<>(producerProperties)) {
       Alert alert = new Alert(0, "Stage 0", "CRITICAL", "Stage 0 stopped");
       ProducerRecord<Alert, String> producerRecord =
-          new ProducerRecord<>("healthtrend", alert, alert.getAlertMessage());    //<2>
+          new ProducerRecord<>("kinaction_alerttrend", alert, alert.getAlertMessage());    //<2>
 
       RecordMetadata result = producer.send(producerRecord).get();
       log.info("offset = {}, topic = {}, timestamp = {}",

@@ -25,7 +25,7 @@ public class AuditProducer {
     props.put("max.in.flight.requests.per.connection", "1");
 
     try (Producer<String, String> producer = new KafkaProducer<>(props)) {
-      ProducerRecord<String, String> producerRecord = new ProducerRecord<>("audit", null,
+      ProducerRecord<String, String> producerRecord = new ProducerRecord<>("kinaction_audit", null,
                                                                            "audit event");
 
       RecordMetadata result = producer.send(producerRecord).get();

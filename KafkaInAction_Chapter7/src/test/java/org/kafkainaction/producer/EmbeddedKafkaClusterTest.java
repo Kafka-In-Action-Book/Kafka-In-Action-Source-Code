@@ -23,7 +23,7 @@ import org.kafkainaction.serde.AlertKeySerde;
 
 public class EmbeddedKafkaClusterTest {
 
-	private static final String TOPIC = "alert";
+	private static final String TOPIC = "kinaction_alert";
 	private static final int PARTITION_NUMER = 3;
 	private static final int REPLICATION_NUMBER = 3;
 	private static final int BROKER_NUMBER = 3;

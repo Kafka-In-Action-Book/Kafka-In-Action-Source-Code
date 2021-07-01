@@ -24,7 +24,7 @@ public class AlertConsumer {
     props.put("interceptor.classes", "org.kafkainaction.consumer.AlertConsumerMetricsInterceptor");
 
     try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
-      consumer.subscribe(List.of("alert"));
+      consumer.subscribe(List.of("kinaction_alert"));
 
       while (true) {
         var records = consumer.poll(Duration.ofMillis(100));
