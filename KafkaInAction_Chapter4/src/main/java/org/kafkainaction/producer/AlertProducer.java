@@ -22,7 +22,7 @@ public class AlertProducer {
     try (Producer<Alert, String> producer = new KafkaProducer<>(props)) {
       Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
       ProducerRecord<Alert, String>
-          producerRecord = new ProducerRecord<>("alert", alert, alert.getAlertMessage());   //<3>
+          producerRecord = new ProducerRecord<>("kinaction_alert", alert, alert.getAlertMessage());   //<3>
 
       producer.send(producerRecord, new AlertCallback());
     }

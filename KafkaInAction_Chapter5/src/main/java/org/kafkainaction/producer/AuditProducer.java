@@ -26,7 +26,7 @@ public class AuditProducer {
 
     try (Producer<String, String> producer = new KafkaProducer<>(props)) {
 
-      ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("audit", null,
+      ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("kinaction_audit", null,
                                                                                          "audit event");
 
       RecordMetadata result = producer.send(producerRecord).get();
