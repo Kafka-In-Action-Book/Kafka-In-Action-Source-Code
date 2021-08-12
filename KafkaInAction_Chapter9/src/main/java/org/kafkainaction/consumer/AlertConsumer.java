@@ -21,7 +21,7 @@ public class AlertConsumer {
     props.put("auto.commit.interval.ms", "1000");
     props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
     props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-    props.put("interceptor.classes", "org.kafkainaction.consumer.AlertConsumerMetricsInterceptor");
+    props.put("interceptor.classes", AlertConsumerMetricsInterceptor.class.getName());
 
     try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
       consumer.subscribe(List.of("kinaction_alert"));

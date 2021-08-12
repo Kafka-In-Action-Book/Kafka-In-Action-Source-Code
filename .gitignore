@@ -150,3 +150,4 @@ buildNumber.properties
 .project
 .settings
 .classpath
+.vscode
