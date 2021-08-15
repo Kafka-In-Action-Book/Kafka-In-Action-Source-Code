@@ -15,7 +15,7 @@ public class CreateTopic {
 
     Properties props = new Properties();
     props.put("bootstrap.servers", "localhost:9092,localhost:9093");
-    props.put("key.serializer", "org.kafkainaction.serde.AlertKeySerde");
+    props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     NewTopic requestedTopic = new NewTopic("selfserviceTopic", 2, (short) 2);
     AdminClient client = AdminClient.create(props);
