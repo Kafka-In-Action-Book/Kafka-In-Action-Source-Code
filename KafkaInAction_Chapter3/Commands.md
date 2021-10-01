@@ -12,7 +12,9 @@ For example, on a Mac, you can do the following command: `lsof -t -i tcp:8083 | 
 * Close all zookeeper and kafka brokers you have open. 
 We are going to start fresh.
 
+
 ### Download for Confluent Open Source
+* Note that the book text uses Confluent version 5.X and might not reflect the below instrucutions that have been updated to be newer versions*
 
 * https://www.confluent.io/previous-versions
   Select the «Download Community Tarball» version 6.1.1 or above and unzip that archive.
@@ -47,8 +49,11 @@ INSERT INTO invoices (id,title,details,billedamt)  VALUES (1, 'book', 'Franz Kaf
 ```
 
 ### Edit source jdbc connector file to the following:
+`> export CONFLUENT_HOME='~/confluent-6.2.0'`
 
-`> cp $CONFLUENT_HOME/etc/kafka-connect-jdbc/source-quickstart-sqlite.properties $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties`
+
+`> mkdir -p $CONFLUENT_HOME/etc/kafka-connect-jdbc/`
+
 `> vi $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties`
  
 ```properties
@@ -70,7 +75,7 @@ Run the following:
 
 ```bash
 > confluent local services connect start 
-> confluent local services connect connector load jdbc-source
+> confluent local services connect connector config jdbc-source --config $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties
 > confluent local services connect connector status
 > ./bin/kafka-avro-console-consumer --topic test-sqlite-jdbc-invoices --bootstrap-server localhost:9092  --from-beginning
 ```
