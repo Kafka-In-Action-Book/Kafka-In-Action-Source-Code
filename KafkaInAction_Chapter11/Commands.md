@@ -41,3 +41,10 @@ curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" \
         <goal>test-compatibility</goal> 
     </goals>
 </plugin>
+
+
+### Maven Ouput
+
+[INFO] --- kafka-schema-registry-maven-plugin:6.2.1:test-compatibility (default-cli) @ chapter11 ---
+
+[INFO] Schema Kafka-In-Action-Source-Code/KafkaInAction_Chapter11/src/main/avro/alert_v2.avsc is compatible with subject(kinaction_schematest-value)
