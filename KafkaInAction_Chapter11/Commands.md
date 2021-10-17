@@ -42,6 +42,14 @@ curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" \
     </goals>
 </plugin>
 
+### More Commands
+
+> curl -X GET http://localhost:8081/config
+> 
+> curl http://localhost:8081/subjects/kinaction_schematest-value/versions/1
+> 
+> curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{ "schema": "{ \"type\": \"record\", \"name\": \"Alert\", \"fields\": [{ \"name\": \"notafield\", \"type\": \"long\" } ]}" }' http://localhost:8081/compatibility/subjects/kinaction_schematest-value/versions/latest
+
 
 ### Maven Ouput
 
