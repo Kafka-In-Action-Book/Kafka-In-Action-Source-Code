@@ -40,6 +40,9 @@ We are going to start fresh.
    billedamt         REAL,
    modified    DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+# If you get an error, please try the following create table change for modified:
+modified TIMESTAMP DEFAULT (STRFTIME('%s', 'now')) NOT NULL
 ``` 
 
 ### Table insert command
