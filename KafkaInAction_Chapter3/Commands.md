@@ -52,7 +52,7 @@ INSERT INTO invoices (id,title,details,billedamt)  VALUES (1, 'book', 'Franz Kaf
 ```
 
 ### Edit source jdbc connector file to the following:
-`> export CONFLUENT_HOME='~/confluent-6.2.0'`
+`> export CONFLUENT_HOME=~/confluent-6.2.0`
 
 
 `> mkdir -p $CONFLUENT_HOME/etc/kafka-connect-jdbc/`
