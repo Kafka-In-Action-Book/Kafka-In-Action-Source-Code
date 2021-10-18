@@ -38,12 +38,10 @@ We are going to start fresh.
    title           TEXT    NOT NULL,
    details        CHAR(50),
    billedamt         REAL,
-   modified    DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+   modified TIMESTAMP DEFAULT (STRFTIME('%s', 'now')) NOT NULL
 );
 
 # If you get an error, please try the following create table change for modified:
-modified TIMESTAMP DEFAULT (STRFTIME('%s', 'now')) NOT NULL
-or 
 modified TIMESTAMP DEFAULT (STRFTIME(‘%Y-%m-%d %H-%M:%f’, ‘NOW’)) NOT NULL # Credit to Marc Paquette
 ``` 
 
