@@ -43,6 +43,8 @@ We are going to start fresh.
 
 # If you get an error, please try the following create table change for modified:
 modified TIMESTAMP DEFAULT (STRFTIME('%s', 'now')) NOT NULL
+or 
+modified TIMESTAMP DEFAULT (STRFTIME(‘%Y-%m-%d %H-%M:%f’, ‘NOW’)) NOT NULL # Credit to Marc Paquette
 ``` 
 
 ### Table insert command
