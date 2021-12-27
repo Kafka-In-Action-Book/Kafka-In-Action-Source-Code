@@ -14,15 +14,15 @@ public class AlertProducer {
 
   public static void main(String[] args) {
 
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9092,localhost:9093");
     
-    props.put("key.serializer", AlertKeySerde.class.getName());   //<1>
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    kaProperties.put("key.serializer", AlertKeySerde.class.getName());   //<1>
+    kaProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     /** Use {@link org.kafkainaction.partitioner.AlertLevelPartitioner} to determine partition */
-    props.put("partitioner.class", AlertLevelPartitioner.class.getName());    //<2>
+    kaProperties.put("partitioner.class", AlertLevelPartitioner.class.getName());    //<2>
 
-    try (Producer<Alert, String> producer = new KafkaProducer<>(props)) {
+    try (Producer<Alert, String> producer = new KafkaProducer<>(kaProperties)) {
       Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
       ProducerRecord<Alert, String>
           producerRecord = new ProducerRecord<>("kinaction_alert", alert, alert.getAlertMessage());   //<3>
