@@ -11,16 +11,16 @@ public class HelloWorldProducer {
   public static void main(String[] args) {
 
     // docker exec -it broker1 /usr/bin/kafka-topics --bootstrap-server localhost:29092 --create --topic kinaction_helloworld
-    Properties producerProperties = new Properties();   //<1>
-    producerProperties.put("bootstrap.servers",
+    Properties kaProperties = new Properties();   //<1>
+    kaProperties.put("bootstrap.servers",
                            "localhost:9092,localhost:9093,localhost:9094");   //<2>
 
-    producerProperties.put(
+    kaProperties.put(
         "key.serializer", "org.apache.kafka.common.serialization.StringSerializer");    //<3>
-    producerProperties.put("value.serializer",
+    kaProperties.put("value.serializer",
                            "org.apache.kafka.common.serialization.StringSerializer");
 
-    try (Producer<String, String> producer = new KafkaProducer<>(producerProperties)) { //<4>
+    try (Producer<String, String> producer = new KafkaProducer<>(kaProperties)) { //<4>
 
       ProducerRecord<String, String> producerRecord =
           new ProducerRecord<>("kinaction_helloworld", null, "hello world again!");   //<5>
