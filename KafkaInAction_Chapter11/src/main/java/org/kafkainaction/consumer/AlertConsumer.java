@@ -36,7 +36,7 @@ public class AlertConsumer {
     while (true) {
       ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(250));
       for (ConsumerRecord<Long, Alert> record : records) {
-        log.info("Akinaction_info lert Content = {}", record.value().toString()); //<5>
+        log.info("kinaction_info Alert Content = {}", record.value().toString()); //<5>
       }
     }
   }
