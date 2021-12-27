@@ -26,8 +26,8 @@ public class AlertConsumerMetricsInterceptor implements ConsumerInterceptor<Aler
       for (ConsumerRecord<Alert, String> record : records) {
         Headers headers = record.headers();       // <2>
         for (Header header : headers) {
-          if ("traceId".equals(header.key())) { // <3>
-            log.info("TraceId is: " + new String(header.value()));
+          if ("kinactionTraceId".equals(header.key())) { // <3>
+            log.info("kinactionTraceId is: " + new String(header.value()));
           }
         }
       }
