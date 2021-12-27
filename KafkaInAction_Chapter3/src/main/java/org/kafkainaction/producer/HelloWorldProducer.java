@@ -29,7 +29,7 @@ public class HelloWorldProducer {
     try (Producer<Long, Alert> producer = new KafkaProducer<>(kaProperties)) {
       Alert alert = new Alert(12345L, Instant.now().toEpochMilli(), Critical);  //<3>
 
-      log.info("info("kinaction_info Alert -> {}", alert);
+      log.info("kinaction_info Alert -> {}", alert);
 
       ProducerRecord<Long, Alert> producerRecord =
           new ProducerRecord<>("kinaction_schematest",
