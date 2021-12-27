@@ -31,7 +31,7 @@ public class AlertConsumer {
 
     KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<Long, Alert>(kaProperties); //C <3>
 
-    consumer.subscribe(List.of(""kinaction_schematest")); //<4>
+    consumer.subscribe(List.of("kinaction_schematest")); //<4>
 
     while (true) {
       ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(250));
