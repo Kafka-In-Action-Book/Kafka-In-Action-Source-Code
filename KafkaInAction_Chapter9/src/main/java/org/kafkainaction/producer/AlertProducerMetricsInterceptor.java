@@ -17,18 +17,18 @@ public class AlertProducerMetricsInterceptor implements ProducerInterceptor<Aler
 
   public ProducerRecord<Alert, String> onSend(ProducerRecord<Alert, String> record) {   //<2>
     Headers headers = record.headers();
-    String traceId = UUID.randomUUID().toString();
-    headers.add("traceId", traceId.getBytes());                                     //<3>
-    log.info("Created traceId: {}", traceId);
+    String kinactionTraceId = UUID.randomUUID().toString();
+    headers.add("kinactionTraceId", kinactionTraceId.getBytes());                                     //<3>
+    log.info("kinaction_info Created kinactionTraceId: {}", kinactionTraceId);
     return record;                                                                  //<4>
   }
   
   public void onAcknowledgement(RecordMetadata metadata, Exception exception) {       //<5>
     if (exception != null) {
-      log.info("producer send exception " + exception.getMessage());
+      log.info("kinaction_error " + exception.getMessage());
     } else {
-      log.info("ack'ed topic = {}, partition = {}, offset = {}",
-               metadata.topic(), metadata.partition(), metadata.offset());
+      log.info("kinaction_info topic = {} offset = {}",
+               metadata.topic(), metadata.offset());
     }
   }
 
