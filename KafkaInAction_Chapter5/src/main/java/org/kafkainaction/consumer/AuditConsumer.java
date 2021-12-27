@@ -44,7 +44,7 @@ public class AuditConsumer {
           log.info("kinaction_info offset = {}, value = {}",
                    record.offset(), record.value());
 
-          OffsetAndMetadata offsetMeta = new OffsetAndMetadata(++record.offset(), "");
+          OffsetAndMetadata offsetMeta = new OffsetAndMetadata(record.offset() + 1, "");
 
           Map<TopicPartition, OffsetAndMetadata> kaOffsetMap = new HashMap<>();
           kaOffsetMap.put(new TopicPartition("kinaction_audit", record.partition()), offsetMeta);
