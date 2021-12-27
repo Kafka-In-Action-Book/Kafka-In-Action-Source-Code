@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.List;
 
 public class AlertConsumer {
 
@@ -22,17 +23,17 @@ public class AlertConsumer {
   public static final String TOPIC_NAME = "kinaction_alert";
 
   public static void main(String[] args) {
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
-    props.put("enable.auto.commit", "false");
-    props.put("group.id", "alert");
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    kaProperties.put("enable.auto.commit", "false");
+    kaProperties.put("group.id", "kinaction_team0groupalert");
     /** Deserialize key using {@link org.kafkainaction.serde.AlertKeySerde} */
-    props.put("key.deserializer", "org.kafkainaction.serde.AlertKeySerde");
-    props.put("value.deserializer",
+    kaProperties.put("key.deserializer", "org.kafkainaction.serde.AlertKeySerde");
+    kaProperties.put("value.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");
 
     AlertConsumer consumer = new AlertConsumer();
-    consumer.consume(props);
+    consumer.consume(kaProperties);
 
     Runtime.getRuntime().addShutdownHook(new Thread(consumer::shutdown));
   }
@@ -41,44 +42,44 @@ public class AlertConsumer {
     keepConsuming = false;
   }
 
-  private void consume(final Properties props) {
-    KafkaConsumer<Alert, String> consumer = new KafkaConsumer<>(props);
+  private void consume(final Properties kaProperties) {
+    KafkaConsumer<Alert, String> consumer = new KafkaConsumer<>(kaProperties);
     TopicPartition partitionZero = new TopicPartition(TOPIC_NAME, 0);
-    consumer.assign(Collections.singletonList(partitionZero));
+    consumer.assign(List.of(partitionZero));
 
     while (keepConsuming) {
-      ConsumerRecords<Alert, String> records = consumer.poll(Duration.ofMillis(100));
+      ConsumerRecords<Alert, String> records = consumer.poll(Duration.ofMillis(250));
       for (ConsumerRecord<Alert, String> record : records) {
-        log.info("offset = {}, key = {}, value = {}",
+        log.info("kinaction_info offset = {}, key = {}, value = {}",
                  record.offset(),
                  record.key().getStageId(),
                  record.value());
-        commitOffset(record.offset(), record.partition(), TOPIC_NAME, consumer);
+        commitOffset(record.offset(), TOPIC_NAME, consumer);
       }
     }
   }
 
-  public static void commitOffset(long offset, int part, String topic, KafkaConsumer<Alert, String> consumer) {
-    OffsetAndMetadata offsetMeta = new OffsetAndMetadata(offset + 1, "");
+  public static void commitOffset(long offset, String topic, KafkaConsumer<Alert, String> consumer) {
+    OffsetAndMetadata offsetMeta = new OffsetAndMetadata(++offset, "");
 
-    Map<TopicPartition, OffsetAndMetadata> offsetMap = new HashMap<>();
-    offsetMap.put(new TopicPartition(topic, part), offsetMeta);
+    Map<TopicPartition, OffsetAndMetadata> kaOffsetMap = new HashMap<>();
+    kaOffsetMap.put(new TopicPartition(topic, part), offsetMeta);
 
-    consumer.commitAsync(offsetMap, AlertConsumer::onComplete);
+    consumer.commitAsync(kaOffsetMap, AlertConsumer::onComplete);
   }
 
   private static void onComplete(Map<TopicPartition, OffsetAndMetadata> map,
                                  Exception e) {
     if (e != null) {
       for (TopicPartition key : map.keySet()) {
-        log.info("Commit failed: topic {}, partition {}, offset {}",
+        log.info("kinaction_error topic {}, partition {}, offset {}",
                  key.topic(),
                  key.partition(),
                  map.get(key).offset());
       }
     } else {
       for (TopicPartition key : map.keySet()) {
-        log.info("OK: topic {}, partition {}, offset {}",
+        log.info("kinaction_info topic {}, partition {}, offset {}",
                  key.topic(),
                  key.partition(),
                  map.get(key).offset());
