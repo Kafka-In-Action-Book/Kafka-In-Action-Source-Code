@@ -11,9 +11,9 @@ public class AlertCallback implements Callback {    //<1>
 
   public void onCompletion(RecordMetadata metadata, Exception exception) {    //<2>
     if (exception != null) {
-      log.error("Error sending message:", exception);
+      log.error("kinaction_error", exception);
     } else {
-      log.info("Message sent: offset = {}, topic = {}, timestamp = {}",
+      log.info("kinaction_info offset = {}, topic = {}, timestamp = {}",
                metadata.offset(), metadata.topic(), metadata.timestamp());
     }
   }
