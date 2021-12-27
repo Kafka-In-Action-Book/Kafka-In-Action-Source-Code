@@ -1,9 +1,11 @@
 # Commands used in Chapter 4
 
-## Creating the alert Topic
+## Creating the kinaction Topics
 
-`bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic alert --partitions 3 --replication-factor 3`
+`bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kinaction_alert --partitions 3 --replication-factor 3`
 
-## Verify the Custom partitioner sent the alert to the correct partition
 
-`bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic alert --time -1`
+`bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic "kinaction_alerttrend --partitions 3 --replication-factor 3`
+
+
+`bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic kinaction_audit --partitions 3 --replication-factor 3`
