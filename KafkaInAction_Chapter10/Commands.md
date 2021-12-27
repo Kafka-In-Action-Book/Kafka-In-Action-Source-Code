@@ -1,52 +1,49 @@
 # Commands used in Chapter 10
 
+# Note
+* A security professional should be consulted for the correct way to
+set up your own environment. Our commands are meant as a guide for getting
+familiar and for learning, not as a production level of security. This is not
+a complete guide. Use it at your own risk!
+
 ## SSL Key Generation for a Broker
 
     keytool -genkey -noprompt \
         -alias localhost \
-        -dname "CN=kia.manning.com, OU=TEST, O=MASQUERADE, L=Portland, S=Or, C=US" \
+        -dname "CN=kia.manning.com, OU=TEST, O=TREASUREE, L=Bend, S=Or, C=US" \
         -keystore kafka.broker0.keystore.jks \ 
         -keyalg RSA \
-        -storepass masquerade \ 
-        -keypass masquerade \
+        -storepass changeTreasure \ 
+        -keypass changeTreasure \
         -validity 999
 
 ## Creating our own Certificate Authority
       openssl req -new -x509 -keyout cakey.crt -out ca.crt \
-      -days 999 -subj '/CN=localhost/OU=TEST/O=MASQUERADE/L=Portland/S=Or/C=US' \
-      -passin pass:masquerade -passout pass:masquerade
+      -days 999 -subj '/CN=localhost/OU=TEST/O=TREASURE/L=Bend/S=Or/C=US' \
+      -passin pass:changeTreasure -passout pass:changeTreasure
 
-  
-## Importing the CA cert into our truststores and signing our keystore
-
-    keytool -keystore kafka.client.truststore.jks -alias CA -import -file ca.crt  -keypass masquerade -storepass masquerade
-    keytool -keystore kafka.broker0.truststore.jks -alias CA -import -file ca.crt  -keypass masquerade -storepass masquerade
-    keytool -keystore kafka.broker0.keystore.jks -alias localhost -certreq -file cert-file -storepass masquerade -noprompt
-    openssl x509 -req -CA ca.crt -CAkey cakey.crt -in cert-file -out signed.crt -days 999 -CAcreateserial -passin pass:masquerade 
-    keytool -keystore kafka.broker0.keystore.jks -alias CA -import -file ca.crt -storepass masquerade -noprompt
-    keytool -keystore kafka.broker0.keystore.jks -alias localhost -import -file signed.crt -storepass masquerade -noprompt
 
 ## Broker server properties changes
 
     listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093 
-    ssl.truststore.location=/var/ssl/private/kafka.broker0.truststore.jks 
-    ssl.truststore.password=masquerade
-    ssl.keystore.location=/var/ssl/private/kafka.broker0.keystore.jks 
-    ssl.keystore.password=masquerade
-    ssl.key.password=masquerade
+    ssl.truststore.location=/var/kafkainaction/private/kafka.broker0.truststore.jks 
+    ssl.truststore.password=changeTreasure
+    ssl.keystore.location=/var/kafkainaction/private/kafka.broker0.keystore.jks 
+    ssl.keystore.password=changeTreasure
+    ssl.key.password=changeTreasure
 
 ## SSL Configuration for Clients
 
     security.protocol=SSL 
-    ssl.truststore.location=/var/private/ssl/client.truststore.jks 
-    ssl.truststore.password=masquerade
+    ssl.truststore.location=/var/kafkainaction/ssl/client.truststore.jks 
+    ssl.truststore.password=changeTreasure
 
 ## Using SSL Configuration for Command line Clients
 
-    kafka-console-producer.sh --broker-list localhost:9093 --topic testSSL \
-     --producer.config custom-ssl.properties
-    kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic testSSL \
-     --consumer.config custom-ssl.properties
+    bin/kafka-console-producer.sh --bootstrap-server localhost:9093 --topic kinaction_test_ssl \
+     --producer.config kinaction-ssl.properties
+    bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic kinaction_test_ssl \
+     --consumer.config kinaction-ssl.properties
  
 ## Broker SASL JAAS File
 
@@ -54,8 +51,8 @@
         com.sun.security.auth.module.Krb5LoginModule required
         useKeyTab=true
         storeKey=true
-        keyTab=”/var/kafka_server0.keytab”
-        principal=”kafka/kafka0.kia.manning.com@KAFKAINACTION.ORG”;
+        keyTab=”/opt/kafkainaction/kafka_server0.keytab”
+        principal=”kafka/kafka0.ka.manning.com@MANNING.COM”;
     };
     
     // Zookeeper client authentication - Kafka being the client
@@ -63,16 +60,10 @@
         com.sun.security.auth.module.Krb5LoginModule required
         useKeyTab=true
         storeKey=true
-        keyTab=”/var/kafka_server0.keytab”
-        principal=”kafka/kafka0.kia.manning.com@KAFKAINACTION.ORG”;
+        keyTab=”/opt/kafkainaction/kafka_server0.keytab”
+        principal=”kafka/kafka0.ka.manning.com@MANNING.COM”;
     };
 
-## Java parameter for Kafka server startup to point to the above file content
-
-    -Djava.security.auth.login.config=/var/broker0_jaas.conf
-    -Djava.security.krb5.conf=/var/krb.conf
-    -Dsun.security.krb5.debug=true
- 
  
 ## Broker SASL properties changes
 
@@ -85,17 +76,17 @@
     com.sun.security.auth.module.Krb5LoginModule required
     useKeyTab=true
     storeKey=true
-    keyTab="/var/kafkaclient.keytab"
-    principal="kafkaclient@KAFKAINACTION.ORG";
+    keyTab="/opt/kafkainaction/kafkaclient.keytab"
+    principal="kafkaclient@MANNING.COM";
     };
     
 ## Client SASL JAAS File
 
     security.protocol=SASL_SSL
     sasl.kerberos.service.name=kafka
-    ssl.truststore.location=/var/kafka.client.truststore.jks
-    ssl.truststore.password=masquerade
-    ssl.key.password=masquerade
+    ssl.truststore.location=/opt/kafkainaction/kafka.client.truststore.jks
+    ssl.truststore.password=changeTreasure
+    ssl.key.password=changeTreasure
 
 ## ACL Authorizer and Super Users
 
@@ -104,54 +95,34 @@
 
 ## Kafka ACLs To Read and Write to a Topic
 
-    bin/kafka-acls --authorizer-properties \
-      zookeeper.connect=localhost:2181 --add \
+    bin/kafka-acls.sh --authorizer-properties \
+      --bootstrap-server localhost:9094 --add \
      --allow-principal User:Franz --allow-principal User:Hemingway \ 
-     --operation Read --operation Write --topic clueful_secrets
+     --operation Read --operation Write --topic kinaction_clueful_secrets
  
 ## ACL ZooKeeper
 
     zookeeper.set.acl=true
 
-## ZooKeeper properties updates for Kerberos
-
-    authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
-    requireClientAuthScheme=sasl
-    jaasLoginRenew=3600000
-
-## ZooKeeper JAAS File Example
-
-    Server {
-    com.sun.security.auth.module.Krb5LoginModule required
-    useKeyTab=true
-    keyTab="/var/kafka.keytab" 
-    storeKey=true
-    useTicketCache=false
-    principal="kafka/kia.manning.com"; 
-    };
-
-## Java parameter for ZooKeeper server startup
-
-    -Djava.security.auth.login.config=/var/zk_jaas.conf
   
 ## Creating a Network Bandwidth Quota for Client Clueful
 
-    kafka-configs.sh  --bootstrap-server localhost:9092 --alter \
-    --add-config 'producer_byte_rate=1048576,consumer_byte_rate=10485760' \
-    --entity-type clients --entity-name clueful
+    bin/kafka-configs.sh  --bootstrap-server localhost:9094 --alter \
+    --add-config 'producer_byte_rate=1048576,consumer_byte_rate=5242880' \
+    --entity-type clients --entity-name kinaction_clueful
 
 ## Listing and Deleting a Quota for Client Clueful
 
-    kafka-configs.sh  --bootstrap-server localhost:9092 \
+    bin/kafka-configs.sh  --bootstrap-server localhost:9094 \
     ---describe \ 
-    --entity-type clients --entity-name clueful
+    --entity-type clients --entity-name kinaction_clueful
 
-    kafka-configs.sh  --bootstrap-server localhost:9092 --alter \
+    bin/kafka-configs.sh  --bootstrap-server localhost:9094 --alter \
     --delete-config 'producer_byte_rate,consumer_byte_rate' \ 
-    --entity-type clients --entity-name clueful
+    --entity-type clients --entity-name kinaction_clueful
 
 ## Creating a Network Bandwidth Quota for Client Clueful
 
-    kafka-configs.sh  --bootstrap-server localhost:9092 --alter \
+    bin/kafka-configs.sh  --bootstrap-server localhost:9094 --alter \
     --add-config 'request_percentage=100' \
-    --entity-type clients --entity-name clueful 
+    --entity-type clients --entity-name kinaction_clueful 
