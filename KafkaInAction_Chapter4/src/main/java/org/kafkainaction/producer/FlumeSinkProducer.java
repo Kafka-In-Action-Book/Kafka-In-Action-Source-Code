@@ -41,7 +41,7 @@ public class FlumeSinkProducer {
     } catch (IOException e) {
       System.out.println("kinaction_error " + e);
     }
-    return props;
+    return kaProperties;
   }
 
   private static void determineProperty(String line, Properties kaProperties) {
