@@ -41,22 +41,22 @@ Run the following in a directory (without spaces in the path) once you get the a
 	# vi config/server0.properties
 	broker.id=0
 	listeners=PLAINTEXT://localhost:9092
-	log.dir=/tmp/kafka-logs-0
+	log.dirs=/tmp/kafkainaction/kafka-logs-0
 	
 	# vi config/server1.properties
 	broker.id=1
 	listeners=PLAINTEXT://localhost:9093
-	log.dir=/tmp/kafka-logs-1
+	log.dirs=/tmp/kafkainaction/kafka-logs-1
 	
 	# vi config/server2.properties
 	broker.id=2
 	listeners=PLAINTEXT://localhost:9094
-	log.dir=/tmp/kafka-logs-2
+	log.dirs=/tmp/kafkainaction/kafka-logs-2
 	
 4. Start the Kafka Brokers:
     
     
-	bin/kafka-server-start.sh config/server0.properties
+    bin/kafka-server-start.sh config/server0.properties
     bin/kafka-server-start.sh config/server1.properties
     bin/kafka-server-start.sh config/server2.properties
  
