@@ -12,13 +12,13 @@ public class AlertProducer {
 
   public static void main(String[] args) {
 
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
-    props.put("key.serializer", "org.kafkainaction.serde.AlertKeySerde");
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("interceptor.classes", "org.kafkainaction.producer.AlertProducerMetricsInterceptor");
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    kaProperties.put("key.serializer", "org.kafkainaction.serde.AlertKeySerde");
+    kaProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    kaProperties.put("interceptor.classes", "org.kafkainaction.producer.AlertProducerMetricsInterceptor");
 
-    try (Producer<Alert, String> producer = new KafkaProducer<Alert, String>(props)) {
+    try (Producer<Alert, String> producer = new KafkaProducer<Alert, String>(kaProperties)) {
 
       Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
       var producerRecord = new ProducerRecord<>("kinaction_alert", alert, alert.getAlertMessage()); //<1>
