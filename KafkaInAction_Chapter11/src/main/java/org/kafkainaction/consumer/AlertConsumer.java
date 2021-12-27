@@ -19,24 +19,24 @@ public class AlertConsumer {
   final static Logger log = LoggerFactory.getLogger(AlertConsumer.class);
 
   public static void main(String[] args) {
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092");
-    props.put("group.id", "alertinterceptor");
-    props.put("enable.auto.commit", "true");
-    props.put("auto.commit.interval.ms", "1000");
-    props.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
-    props.put("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer"); // <1>
-    props.put("schema.registry.url", "http://localhost:8081"); // <2>
-    props.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9094");
+    kaProperties.put("group.id", "alertinterceptor");
+    kaProperties.put("enable.auto.commit", "true");
+    kaProperties.put("auto.commit.interval.ms", "1000");
+    kaProperties.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
+    kaProperties.put("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer"); // <1>
+    kaProperties.put("schema.registry.url", "http://localhost:8081"); // <2>
+    kaProperties.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
 
-    KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<Long, Alert>(props); //C <3>
+    KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<Long, Alert>(kaProperties); //C <3>
 
-    consumer.subscribe(List.of("avrotest")); //<4>
+    consumer.subscribe(List.of(""kinaction_schematest")); //<4>
 
     while (true) {
-      ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(100));
+      ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(250));
       for (ConsumerRecord<Long, Alert> record : records) {
-        log.info("Alert Content = {}", record.value().toString()); //<5>
+        log.info("Akinaction_info lert Content = {}", record.value().toString()); //<5>
       }
     }
   }
