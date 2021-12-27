@@ -14,7 +14,7 @@ import java.util.List;
 
 public class KinactionStopConsumer implements Runnable {
 
-  final static Logger log = LoggerFactory.getLogger(StopConsumer.class);
+  final static Logger log = LoggerFactory.getLogger(KinactionStopConsumer.class);
 
   private final KafkaConsumer<String, String> consumer;
   private final AtomicBoolean stopping = new AtomicBoolean(false);
