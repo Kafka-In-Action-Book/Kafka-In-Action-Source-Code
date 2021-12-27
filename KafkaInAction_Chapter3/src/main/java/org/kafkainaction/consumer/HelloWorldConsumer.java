@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.List;
 
 public class HelloWorldConsumer {
 
@@ -18,33 +19,32 @@ public class HelloWorldConsumer {
   private volatile boolean keepConsuming = true;
 
   public static void main(String[] args) {
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092");
-    props.put("group.id", "helloconsumer");
-    props.put("enable.auto.commit", "true");
-    props.put("auto.commit.interval.ms", "1000");
-    props.put("key.deserializer",
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9094");
+    kaProperties.put("group.id", "kinaction_helloconsumer");
+    kaProperties.put("enable.auto.commit", "true");
+    kaProperties.put("auto.commit.interval.ms", "1000");
+    kaProperties.put("key.deserializer",
               "org.apache.kafka.common.serialization.LongDeserializer");
-    props.put("value.deserializer",
+    kaProperties.put("value.deserializer",
               "io.confluent.kafka.serializers.KafkaAvroDeserializer");    //<1>
-    props.put("schema.registry.url", "http://localhost:8081");
+    kaProperties.put("schema.registry.url", "http://localhost:8081");
 
     HelloWorldConsumer helloWorldConsumer = new HelloWorldConsumer();
-    helloWorldConsumer.consume(props);
+    helloWorldConsumer.consume(kaProperties);
 
     Runtime.getRuntime().addShutdownHook(new Thread(helloWorldConsumer::shutdown));
   }
 
-  private void consume(Properties props) {
-    try (KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<>(props)) {
-      consumer.subscribe(Collections.singletonList("avrotest"));    //<2>
+  private void consume(Properties kaProperties) {
+    try (KafkaConsumer<Long, Alert> consumer = new KafkaConsumer<>(kaProperties)) {
+      consumer.subscribe(List.of("kinaction_schematest"));    //<2>
 
       while (keepConsuming) {
-        ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(100));
+        ConsumerRecords<Long, Alert> records = consumer.poll(Duration.ofMillis(250));
         for (ConsumerRecord<Long, Alert> record : records) {    //<3>
-          log.info("[Consumer Record] offset = {}, key = {}, value = {}",
+          log.info("kinaction_info offset = {}, kinaction_value = {}",
                    record.offset(),
-                   record.key(),
                    record.value());
         }
       }
