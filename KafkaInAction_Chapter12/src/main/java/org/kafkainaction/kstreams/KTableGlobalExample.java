@@ -14,14 +14,14 @@ public class KTableGlobalExample {
 
 	public static void main(String[] args) throws Exception {
 
-        Properties props = new Properties();
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "GlobalKTableExample");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        Properties kaProperties = new Properties();
+        kaProperties.put(StreamsConfig.APPLICATION_ID_CONFIG, "Kinaction_GlobalKTableExample");
+        kaProperties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9094");
         
     	StreamsBuilder builder = new StreamsBuilder();
 
-    	final KStream<String, MailingNotif> lists = builder.stream("mailingNotif");
-    	final GlobalKTable<String, Customer> customers = builder.globalTable("customers");
+    	final KStream<String, MailingNotif> lists = builder.stream("kinaction_mailingNotif");
+    	final GlobalKTable<String, Customer> customers = builder.globalTable("kinaction_custinfo");
 
     	//TODO - 
 //		lists.join(customers, (mailingNotifID, mailingNotif) -> mailingNotif.getCustomerId(),
@@ -29,7 +29,7 @@ public class KTableGlobalExample {
 //				.peek((key, email) -> emailService.sendMessage(email));
 //        
 
-        KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), props);
+        KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), kaProperties);
     	kafkaStreams.cleanUp();
     	kafkaStreams.start();
     	Thread.sleep(5000);
