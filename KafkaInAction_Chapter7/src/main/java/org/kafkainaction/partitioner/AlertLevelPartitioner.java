@@ -41,7 +41,7 @@ public class AlertLevelPartitioner implements Partitioner {   //<1>
   
   public boolean isCriticalLevel(String level) {
     if (level.toUpperCase().contains("CRITICAL")) {
-      rerturn true;
+      return true;
     } else {
       return false;
     }
