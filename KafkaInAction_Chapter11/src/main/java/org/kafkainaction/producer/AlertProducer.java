@@ -31,7 +31,7 @@ public class AlertProducer {
       alert.setTime(Calendar.getInstance().getTimeInMillis());
       alert.setStatus(Critical);
       /* Uncomment the following line if alert_v2.avsc is the latest Alert model */
-      alert.setRecoveryDetails("RecoveryDetails");
+     // alert.setRecoveryDetails("RecoveryDetails");
       log.info(alert.toString());
 
       ProducerRecord<Long, Alert> producerRecord = new ProducerRecord<>("kinaction_schematest", alert.getSensorId(), alert); // <4>
