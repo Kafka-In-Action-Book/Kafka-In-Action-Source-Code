@@ -41,8 +41,6 @@ We are going to start fresh.
    modified TIMESTAMP DEFAULT (STRFTIME('%s', 'now')) NOT NULL
 );
 
-# If you get an error, please try the following create table change for modified:
-modified TIMESTAMP DEFAULT (STRFTIME(‘%Y-%m-%d %H-%M:%f’, ‘NOW’)) NOT NULL # Credit to Marc Paquette
 ``` 
 
 ### Table insert command
@@ -60,19 +58,19 @@ INSERT INTO invoices (id,title,details,billedamt)  VALUES (1, 'book', 'Franz Kaf
 `> vi $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties`
 
 *NOTE: Update your database path below to be the full path for best results: ie. *
-connection.url=jdbc:sqlite:/Users/username/confluent-6.2.0/kafkatest.db
+connection.url=jdbc:sqlite:/<YOUR_FULL_PATH>/confluent-6.2.0/kafkatest.db
  
 ```properties
-name=test-source-sqlite-jdbc-invoice
+name=kinaction-test-source-sqlite-jdbc-invoice
 connector.class=io.confluent.connect.jdbc.JdbcSourceConnector
 tasks.max=1
 # SQLite database stored in the file kafkatest.db, use and auto-incrementing column called 'id' to
-# detect new rows as they are added, and output to topics prefixed with 'test-sqlite-jdbc-', e.g.
-# a table called 'users' will be written to the topic 'test-sqlite-jdbc-users'.
+# detect new rows as they are added, and output to topics prefixed with 'kinaction-test-sqlite-jdbc-', e.g.
+# a table called 'invoices' will be written to the topic 'kinaction-test-sqlite-jdbc-invoices'.
 connection.url=jdbc:sqlite:kafkatest.db
 mode=incrementing
 incrementing.column.name=id
-topic.prefix=test-sqlite-jdbc-
+topic.prefix=kinaction-test-sqlite-jdbc-
 ```
 
 ### Start Confluent Kafka
@@ -83,7 +81,7 @@ Run the following:
 > confluent local services connect start 
 > confluent local services connect connector config jdbc-source --config $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties
 > confluent local services connect connector status
-> ./bin/kafka-avro-console-consumer --topic test-sqlite-jdbc-invoices --bootstrap-server localhost:9092  --from-beginning
+> ./bin/kafka-avro-console-consumer --topic kinaction-test-sqlite-jdbc-invoices --bootstrap-server localhost:9092  --from-beginning
 ```
 
 ## Avro Notes
@@ -94,7 +92,7 @@ Make sure you start the `confluent local services connect start` before you try,
 * You should see the producer message by running:
 
 ```bash
-confluent local services kafka consume avrotest --value-format avro --from-beginning
+confluent local services kafka consume kinaction_schematest --value-format avro --from-beginning
 ```
 
 ## Java example commands
