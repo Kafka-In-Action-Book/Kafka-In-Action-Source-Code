@@ -62,7 +62,7 @@ Run the following in a directory (without spaces in the path) once you get the a
 	
 4. Start the Kafka Brokers:
     
-
+	
     bin/kafka-server-start.sh config/server0.properties
     bin/kafka-server-start.sh config/server1.properties
     bin/kafka-server-start.sh config/server2.properties
