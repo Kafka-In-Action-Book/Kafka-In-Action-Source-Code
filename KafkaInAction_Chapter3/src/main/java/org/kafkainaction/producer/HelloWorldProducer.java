@@ -34,7 +34,7 @@ public class HelloWorldProducer {
       ProducerRecord<Long, Alert> producerRecord =
           new ProducerRecord<>("kinaction_schematest",
                                alert.getSensorId(),
-                               alert);  //<4>
+                               alert); //<4>
 
       producer.send(producerRecord);
     }
