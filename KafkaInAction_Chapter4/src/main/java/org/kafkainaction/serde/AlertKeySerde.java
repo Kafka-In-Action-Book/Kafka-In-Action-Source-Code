@@ -18,7 +18,7 @@ public class AlertKeySerde implements Serializer<Alert>,
   }
 
   public Alert deserialize(String topic, byte[] value) {    //<4>
-    //We will leave this part for later
+    //could return Alert in future if needed
     return null;
   }
 
