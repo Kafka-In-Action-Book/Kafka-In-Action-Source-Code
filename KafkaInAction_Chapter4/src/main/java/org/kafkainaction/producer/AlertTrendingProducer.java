@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import org.kafkainaction.serde.AlertKeySerde;
 
 public class AlertTrendingProducer {
 
@@ -19,21 +20,21 @@ public class AlertTrendingProducer {
   public static void main(String[] args)
       throws InterruptedException, ExecutionException {
 
-    Properties producerProperties = new Properties();
-    producerProperties.put("bootstrap.servers",
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers",
                            "localhost:9092,localhost:9093,localhost:9094");
-    producerProperties.put("key.serializer",
-                           "org.kafkainaction.serde.AlertKeySerde");   //<1>
-    producerProperties.put("value.serializer",
+    kaProperties.put("key.serializer",
+                          AlertKeySerde.class.getName());   //<1>
+    kaProperties.put("value.serializer",
                            "org.apache.kafka.common.serialization.StringSerializer");
 
-    try (Producer<Alert, String> producer = new KafkaProducer<>(producerProperties)) {
+    try (Producer<Alert, String> producer = new KafkaProducer<>(kaProperties)) {
       Alert alert = new Alert(0, "Stage 0", "CRITICAL", "Stage 0 stopped");
       ProducerRecord<Alert, String> producerRecord =
           new ProducerRecord<>("kinaction_alerttrend", alert, alert.getAlertMessage());    //<2>
 
       RecordMetadata result = producer.send(producerRecord).get();
-      log.info("offset = {}, topic = {}, timestamp = {}",
+      log.info("kinaction_info offset = {}, topic = {}, timestamp = {}",
                result.offset(), result.topic(), result.timestamp());
     }
   }
