@@ -54,12 +54,12 @@ public class AlertConsumer {
                  record.offset(),
                  record.key().getStageId(),
                  record.value());
-        commitOffset(record.offset(), TOPIC_NAME, consumer);
+        commitOffset(record.offset(), record.partition(), TOPIC_NAME, consumer);
       }
     }
   }
 
-  public static void commitOffset(long offset, String topic, KafkaConsumer<Alert, String> consumer) {
+  public static void commitOffset(long offset, int part, String topic, KafkaConsumer<Alert, String> consumer) {
     OffsetAndMetadata offsetMeta = new OffsetAndMetadata(++offset, "");
 
     Map<TopicPartition, OffsetAndMetadata> kaOffsetMap = new HashMap<>();
