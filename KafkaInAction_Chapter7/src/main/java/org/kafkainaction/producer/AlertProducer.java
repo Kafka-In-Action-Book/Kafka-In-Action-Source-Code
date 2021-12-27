@@ -10,10 +10,10 @@ import org.kafkainaction.model.Alert;
 
 public class AlertProducer {
 
-	public void sendMessage(Properties producerConfig) throws InterruptedException, ExecutionException {
-		producerConfig.put("partitioner.class", "org.kafkainaction.partitioner.AlertLevelPartitioner"); // <2>
+	public void sendMessage(Properties kaProperties;) throws InterruptedException, ExecutionException {
+		kaProperties.put("partitioner.class", "org.kafkainaction.partitioner.AlertLevelPartitioner"); // <2>
 
-		try (Producer<Alert, String> producer = new KafkaProducer<>(producerConfig)) {
+		try (Producer<Alert, String> producer = new KafkaProducer<>(kaProperties)) {
 			Alert alert = new Alert(1, "Stage 1", "CRITICAL", "Stage 1 stopped");
 			ProducerRecord<Alert, String> producerRecord = new ProducerRecord<>("kinaction_alert", alert,
 					alert.getAlertMessage()); // <3>
