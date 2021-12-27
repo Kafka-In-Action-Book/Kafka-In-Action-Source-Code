@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.List;
+
 
 public class WebClickConsumer {
 
@@ -15,33 +17,33 @@ public class WebClickConsumer {
   private volatile boolean keepConsuming = true;
 
   public static void main(String[] args) {
-    Properties props = new Properties();
-    props.put("bootstrap.servers",
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers",
               "localhost:9092,localhost:9093,,localhost:9094");
-    props.put("group.id", "webconsumer");   //<1>
-    props.put("enable.auto.commit", "true");
-    props.put("auto.commit.interval.ms", "1000");
-    props.put("key.deserializer",
+    kaProperties.put("group.id", "kinaction_webconsumer");   //<1>
+    kaProperties.put("enable.auto.commit", "true");
+    kaProperties.put("auto.commit.interval.ms", "1000");
+    kaProperties.put("key.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");    //<2>
-    props.put("value.deserializer",
+    kaProperties.put("value.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");
 
     WebClickConsumer webClickConsumer = new WebClickConsumer();
-    webClickConsumer.consume(props);
+    webClickConsumer.consume(kaProperties);
 
     Runtime.getRuntime().addShutdownHook(new Thread(webClickConsumer::shutdown));
   }
 
-  private void consume(Properties props) {
-    try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {   //<3>
-      consumer.subscribe(Arrays.asList("webclicks"));   //<4>
+  private void consume(Properties kaProperties) {
+    try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(kaProperties)) {   //<3>
+      consumer.subscribe(List.of("kinaction_promos"));   //<4>
 
       while (keepConsuming) {   //<5>
-        var records = consumer.poll(Duration.ofMillis(500));
+        var records = consumer.poll(Duration.ofMillis(250));
         for (ConsumerRecord<String, String> record : records) {
-          log.info("[Consumer Record] offset = {}, key = {}, value = {}",
-                   record.offset(), record.key(), record.value());
-          log.info("value = {}", Double.parseDouble(record.value()) * 1.543);
+          log.info("kinaction_info offset = {}, key = {}",
+                   record.offset(), record.key());
+          log.info("kinaction_info value = {}", Double.parseDouble(record.value()) * 1.543);
         }
       }
     }
