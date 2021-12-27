@@ -10,7 +10,7 @@ import org.kafkainaction.model.Alert;
 
 public class AlertProducer {
 
-	public void sendMessage(Properties kaProperties;) throws InterruptedException, ExecutionException {
+	public void sendMessage(Properties kaProperties) throws InterruptedException, ExecutionException {
 		kaProperties.put("partitioner.class", "org.kafkainaction.partitioner.AlertLevelPartitioner"); // <2>
 
 		try (Producer<Alert, String> producer = new KafkaProducer<>(kaProperties)) {
