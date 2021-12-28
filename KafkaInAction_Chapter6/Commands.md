@@ -2,37 +2,32 @@
 
 ## Listing topics from Zookeeper
 
-	zookeeper-shell.sh localhost:2181 
+	bin/zookeeper-shell.sh localhost:2181 
 	ls /brokers/topics
 
 ## Find Controller in ZooKeeper
 
-    zookeeper-shell.sh localhost:2181 
+    bin/zookeeper-shell.sh localhost:2181 
 	get /controller 
 
     
 ## Starting a broker with a JMX Port
 
-	JMX_PORT=9990 bin/kafka-server-start.sh config/server0.properties 
+	JMX_PORT=$JMX_PORT bin/kafka-server-start.sh config/server0.properties 
 	
-## Mirror Maker Command
-
-    bin/kafka-mirror-maker.sh 
-      --consumer.config source.properties 
-      --producer.config target.properties --whitelist test-topic
     
 ## Describe Topic
 
-    $ ./kafka-topics.sh --describe --bootstrap-server localhost:9092 --topic replica-test 
+    $ bin/kafka-topics.sh --describe --bootstrap-server localhost:9094 --topic kinaction_replica_test 
     
     # Sample output
-	Topic:replica-test	PartitionCount:1	ReplicationFactor:3	Configs:
-	Topic: replica-test	Partition: 0	Leader: 0	Replicas: 1,0,2	Isr: 0,2
+	Topic:kinaction_replica_test	PartitionCount:1	ReplicationFactor:3	Configs:
+	Topic: kinaction_replica_test	Partition: 0	Leader: 0	Replicas: 1,0,2	Isr: 0,2
 	
 	
 ## Under-replicated-partitions flag
 
-	./kafka-topics.sh --bootstrap-server localhost:9092 --describe --under-replicated-partitions 
+	bin/kafka-topics.sh --describe --bootstrap-server localhost:9094 --under-replicated-partitions 
 
 	#Sample output
-	Topic: replica-test	Partition: 0	Leader: 0	Replicas: 1,0,2	Isr: 0,2
+	Topic: kinaction_replica_test	Partition: 0	Leader: 0	Replicas: 1,0,2	Isr: 0,2

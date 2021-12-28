@@ -1,5 +1,22 @@
 # Source Code for Kafka in Action
 
+## Most up-to-date location
+* While the source code might be included as a zip file from the Manning website, the location that will likely be the most up-to-date will be located at https://github.com/Kafka-In-Action-Book/Kafka-In-Action-Source-Code. The authors recommend referring to that site rather than the Manning zip location if you have a choice.
+
+
+### Errata
+
+* If you happen to find errata, one option is to look at: https://github.com/Kafka-In-Action-Book/Kafka-In-Action-Source-Code/blob/master/errata.md
+* This is not the official Manning site errata list for the book - but please feel free to create a pull request to share any errata that you wish to share to help others.
+
+## Disclaimer
+
+The author and publisher have made every effort to ensure that the information in this book
+and code was correct at press time. The author and publisher do not assume and hereby disclaim any
+liability to any party for any loss, damage, or disruption caused by errors or omissions, whether
+such errors or omissions result from negligence, accident, or any other cause, or from any usage
+of the information herein.
+
 ## Notes
 
 Here are some notes regarding the source code:
@@ -48,21 +65,21 @@ Run the following in a directory (without spaces in the path) once you get the a
 	vi config/server0.properties
 	broker.id=0
 	listeners=PLAINTEXT://localhost:9092
-	log.dir=/tmp/kafka-logs-0
+	log.dirs=/tmp/kafkainaction/kafka-logs-0
 	
 	vi config/server1.properties
 	broker.id=1
 	listeners=PLAINTEXT://localhost:9093
-	log.dir=/tmp/kafka-logs-1
+	log.dirs=/tmp/kafkainaction/kafka-logs-1
 	
 	vi config/server2.properties
 	broker.id=2
 	listeners=PLAINTEXT://localhost:9094
-	log.dir=/tmp/kafka-logs-2
+	log.dirs=/tmp/kafkainaction/kafka-logs-2
 	
 4. Start the Kafka Brokers:
     
-
+	
     bin/kafka-server-start.sh config/server0.properties
     bin/kafka-server-start.sh config/server1.properties
     bin/kafka-server-start.sh config/server2.properties

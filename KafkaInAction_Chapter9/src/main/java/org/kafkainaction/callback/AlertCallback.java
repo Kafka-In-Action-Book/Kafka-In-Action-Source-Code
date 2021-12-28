@@ -10,7 +10,7 @@ public class AlertCallback implements Callback {
 
 	public void onCompletion(RecordMetadata metadata, Exception exception) {
 		if (exception != null) {
-			log.info("Error sending message: " + exception.getMessage());
+			log.info("kinaction_error " + exception.getMessage());
 		}
 
 	}

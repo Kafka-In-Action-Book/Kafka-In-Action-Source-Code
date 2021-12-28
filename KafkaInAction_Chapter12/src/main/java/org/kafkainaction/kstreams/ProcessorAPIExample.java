@@ -17,24 +17,24 @@ public class ProcessorAPIExample {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
 
-		Properties props = new Properties();
-		props.put(StreamsConfig.APPLICATION_ID_CONFIG, "ProcessorAPIExample");
-		props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+		Properties kaProperties = new Properties();
+		kaProperties.put(StreamsConfig.APPLICATION_ID_CONFIG, "Kinaction_ProcessorAPIExample");
+		kaProperties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9094");
 
 		final Serde<String> stringSerde = Serdes.String();
 		Deserializer<String> stringDeserializer = stringSerde.deserializer();
 		Serializer<String> stringSerializer = stringSerde.serializer();
 
 		Topology topology = new Topology();
-		topology = topology.addSource(LATEST, "input", stringDeserializer, stringDeserializer, "input-topic");
+		topology = topology.addSource(LATEST, "kinaction_source", stringDeserializer, stringDeserializer, "kinaction_source_topic");
 
-		//topology = topology.addProcessor("testProcessor", () -> new TestProcessor(), "input");
+		//topology = topology.addProcessor("kinactionTestProcessor", () -> new KinactionTestProcessor(), "kinaction_source");
 		
-		topology = topology.addSink("Output-Sink1", "sink-topic1", stringSerializer, stringSerializer, "testProcessor");
+		topology = topology.addSink("Kinaction-Destination1-Topic", "kinaction_destination1_topic", stringSerializer, stringSerializer, "kinactionTestProcessor");
 
-		topology = topology.addSink("Output-Sink2", "sink-topic2", stringSerializer, stringSerializer, "testProcessor");
+		topology = topology.addSink("Kinaction-Destination2-Topic", "kinaction_destination2_topic", stringSerializer, stringSerializer, "kinactionTestProcessor");
 
-		KafkaStreams kafkaStreams = new KafkaStreams(topology, props);
+		KafkaStreams kafkaStreams = new KafkaStreams(topology, kaProperties);
 		kafkaStreams.cleanUp();
 		kafkaStreams.start();
 		Thread.sleep(5000);

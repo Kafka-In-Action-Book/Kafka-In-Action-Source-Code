@@ -18,12 +18,12 @@ public class FlumeSinkProducer {
 
   public static void main(String[] args) {
 
-    Properties props = readConfig();
+    Properties kaProperties = readConfig();
 
-    String topic = props.getProperty("topic");
-    props.remove("topic");
+    String topic = kaProperties.getProperty("topic");
+    kaProperties.remove("topic");
 
-    try (Producer<String, String> producer = new KafkaProducer<>(props)) {
+    try (Producer<String, String> producer = new KafkaProducer<>(kaProperties)) {
 
       ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, null, "event");
       producer.send(producerRecord, new AlertCallback());
@@ -34,29 +34,29 @@ public class FlumeSinkProducer {
   private static Properties readConfig() {
     Path path = Paths.get("src/main/resources/kafkasink.conf");
 
-    Properties props = new Properties();
+    Properties kaProperties = new Properties();
 
     try (Stream<String> lines = Files.lines(path)) {
-      lines.forEachOrdered(line -> determineProperty(line, props));
+      lines.forEachOrdered(line -> determineProperty(line, kaProperties));
     } catch (IOException e) {
-      System.out.println("Error: " + e);
+      System.out.println("kinaction_error " + e);
     }
-    return props;
+    return kaProperties;
   }
 
-  private static void determineProperty(String line, Properties props) {
+  private static void determineProperty(String line, Properties kaProperties) {
     if (line.contains("bootstrap")) {
-      props.put("bootstrap.servers", line.split("=")[1]);
+      kaProperties.put("bootstrap.servers", line.split("=")[1]);
     } else if (line.contains("acks")) {
-      props.put("acks", line.split("=")[1]);
+      kaProperties.put("acks", line.split("=")[1]);
     } else if (line.contains("compression.type")) {
-      props.put("compression.type", line.split("=")[1]);
+      kaProperties.put("compression.type", line.split("=")[1]);
     } else if (line.contains("topic")) {
-      props.put("topic", line.split("=")[1]);
+      kaProperties.put("topic", line.split("=")[1]);
     }
 
-    props.putIfAbsent("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.putIfAbsent("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    kaProperties.putIfAbsent("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    kaProperties.putIfAbsent("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
   }
 

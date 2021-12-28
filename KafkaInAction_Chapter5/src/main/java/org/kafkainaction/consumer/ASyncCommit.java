@@ -18,32 +18,32 @@ public class ASyncCommit {
 
   final static Logger log = LoggerFactory.getLogger(ASyncCommit.class);
   private volatile boolean keepConsuming = true;
-  public static final String TOPIC_NAME = "webviews";
+  public static final String TOPIC_NAME = "kinaction_views";
 
   public static void main(String[] args) {
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092,localhost:9093");
-    props.put("group.id", "helloconsumer");
-    props.put("key.deserializer",
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9092,localhost:9093");
+    kaProperties.put("group.id", "kinaction_group_views");
+    kaProperties.put("key.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");
-    props.put("value.deserializer",
+    kaProperties.put("value.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");
 
     final ASyncCommit aSyncCommit = new ASyncCommit();
-    aSyncCommit.consume(props);
+    aSyncCommit.consume(kaProperties);
     Runtime.getRuntime().addShutdownHook(new Thread(aSyncCommit::shutdown));
   }
 
-  private void consume(final Properties props) {
-    try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
+  private void consume(final Properties kaProperties) {
+    try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(kaProperties)) {
 
       consumer.assign(List.of(new TopicPartition(TOPIC_NAME, 1),
                               new TopicPartition(TOPIC_NAME, 2)));
 
       while (keepConsuming) {
-        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(250));
         for (ConsumerRecord<String, String> record : records) {
-          log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+          log.info("kinaction_info offset = {}, value = {}", record.offset(),  record.value());
           commitOffset(record.offset(), record.partition(), TOPIC_NAME, consumer);
         }
       }
@@ -54,19 +54,19 @@ public class ASyncCommit {
                                   int partition, 
                                   String topic, 
                                   KafkaConsumer<String, String> consumer) {
-    OffsetAndMetadata offsetMeta = new OffsetAndMetadata(offset + 1, "");
+    OffsetAndMetadata offsetMeta = new OffsetAndMetadata(++offset, "");
 
-    Map<TopicPartition, OffsetAndMetadata> offsetMap = new HashMap<>();
-    offsetMap.put(new TopicPartition(topic, partition), offsetMeta);
+    Map<TopicPartition, OffsetAndMetadata> kaOffsetMap = new HashMap<>();
+    kaOffsetMap.put(new TopicPartition(topic, partition), offsetMeta);
 
-    consumer.commitAsync(offsetMap, (map, e) -> {
+    consumer.commitAsync(kaOffsetMap, (map, e) -> {
       if (e != null) {
         for (TopicPartition key : map.keySet()) {
-          log.info("Commit failed: topic {}, partition {}, offset {}", key.topic(), key.partition(), map.get(key).offset());
+          log.info("kinaction_error topic {}, offset {}", key.topic(),  map.get(key).offset());
         }
       } else {
         for (TopicPartition key : map.keySet()) {
-          log.info("OK: topic {}, partition {}, offset {}", key.topic(), key.partition(), map.get(key).offset());
+          log.info("kinaction_info topic {}, offset {}", key.topic(), map.get(key).offset());
         }
       }
     });

@@ -19,22 +19,22 @@ public class AlertProducer {
 
   public static void main(String[] args) {
 
-    Properties props = new Properties();
-    props.put("bootstrap.servers", "localhost:9092");
-    props.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
-    props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer"); // <1>
-    props.put("schema.registry.url", "http://localhost:8081"); // <2>
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers", "localhost:9092");
+    kaProperties.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
+    kaProperties.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer"); // <1>
+    kaProperties.put("schema.registry.url", "http://localhost:8081"); // <2>
 
-    try (Producer<Long, Alert> producer = new KafkaProducer<>(props)) {
+    try (Producer<Long, Alert> producer = new KafkaProducer<>(kaProperties)) {
       Alert alert = new Alert(); //<3>
       alert.setSensorId(12345L);
       alert.setTime(Calendar.getInstance().getTimeInMillis());
       alert.setStatus(Critical);
       /* Uncomment the following line if alert_v2.avsc is the latest Alert model */
-      alert.setRecoveryDetails("RecoveryDetails");
+     // alert.setRecoveryDetails("RecoveryDetails");
       log.info(alert.toString());
 
-      ProducerRecord<Long, Alert> producerRecord = new ProducerRecord<>("avrotest", alert.getSensorId(), alert); // <4>
+      ProducerRecord<Long, Alert> producerRecord = new ProducerRecord<>("kinaction_schematest", alert.getSensorId(), alert); // <4>
 
       producer.send(producerRecord);
     }

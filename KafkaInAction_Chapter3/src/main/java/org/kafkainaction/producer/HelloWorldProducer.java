@@ -17,24 +17,24 @@ public class HelloWorldProducer {
   static final Logger log = LoggerFactory.getLogger(HelloWorldProducer.class);
 
   public static void main(String[] args) {
-    Properties producerProperties = new Properties();
-    producerProperties.put("bootstrap.servers",
+    Properties kaProperties = new Properties();
+    kaProperties.put("bootstrap.servers",
                            "localhost:9092,localhost:9093,localhost:9094");
-    producerProperties.put("key.serializer",
+    kaProperties.put("key.serializer",
                            "org.apache.kafka.common.serialization.LongSerializer");
-    producerProperties.put("value.serializer",
+    kaProperties.put("value.serializer",
                            "io.confluent.kafka.serializers.KafkaAvroSerializer");   //<1>
-    producerProperties.put("schema.registry.url", "http://localhost:8081");   //<2>
+    kaProperties.put("schema.registry.url", "http://localhost:8081");   //<2>
 
-    try (Producer<Long, Alert> producer = new KafkaProducer<>(producerProperties)) {
+    try (Producer<Long, Alert> producer = new KafkaProducer<>(kaProperties)) {
       Alert alert = new Alert(12345L, Instant.now().toEpochMilli(), Critical);  //<3>
 
-      log.info("Alert -> {}", alert);
+      log.info("kinaction_info Alert -> {}", alert);
 
       ProducerRecord<Long, Alert> producerRecord =
-          new ProducerRecord<>("avrotest",
+          new ProducerRecord<>("kinaction_schematest",
                                alert.getSensorId(),
-                               alert);  //<4>
+                               alert); //<4>
 
       producer.send(producerRecord);
     }

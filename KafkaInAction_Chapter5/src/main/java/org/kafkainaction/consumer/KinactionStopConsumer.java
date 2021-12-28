@@ -10,25 +10,26 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.List;
 
-public class StopConsumer implements Runnable {
+public class KinactionStopConsumer implements Runnable {
 
-  final static Logger log = LoggerFactory.getLogger(StopConsumer.class);
+  final static Logger log = LoggerFactory.getLogger(KinactionStopConsumer.class);
 
   private final KafkaConsumer<String, String> consumer;
   private final AtomicBoolean stopping = new AtomicBoolean(false);
 
-  public StopConsumer(KafkaConsumer<String, String> consumer) {
+  public KinactionStopConsumer(KafkaConsumer<String, String> consumer) {
     this.consumer = consumer;
   }
 
   public void run() {
     try {
-      consumer.subscribe(Arrays.asList("webclicks"));
+      consumer.subscribe(List.of("kinaction_promos"));
       while (!stopping.get()) {
-        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(250));
         for (ConsumerRecord<String, String> record : records) {
-          log.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+          log.info("kinaction_info offset = {},value = {}", record.offset(), record.value());
         }
       }
     } catch (WakeupException e) {

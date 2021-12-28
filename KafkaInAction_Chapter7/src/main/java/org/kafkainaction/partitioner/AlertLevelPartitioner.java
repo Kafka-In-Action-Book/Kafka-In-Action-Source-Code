@@ -7,6 +7,7 @@ import org.kafkainaction.model.Alert;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class AlertLevelPartitioner implements Partitioner {   //<1>
 
@@ -17,14 +18,33 @@ public class AlertLevelPartitioner implements Partitioner {   //<1>
                        final byte[] valueBytes,
                        final Cluster cluster) {
     
-    final List<PartitionInfo> partitionMetaList =
+    
+    int criticalLevelPartition = findCriticalPartitionNumber(cluster, topic);
+    
+    return isCriticalLevel(((Alert) objectKey).getAlertLevel()) ?
+        criticalLevelPartition :
+        findRandomPartition(cluster, topic, objectKey);
+  }
+  
+  public int findCriticalPartitionNumber(Cluster cluster, String topic) {
+    //not using parameters but could if needed for your logic
+   return 0; 
+  }
+  
+  public int findRandomPartition(Cluster cluster, String topic, Object objectKey) {
+    List<PartitionInfo> partitionMetaList =
         cluster.availablePartitionsForTopic(topic);
-    final int criticalPartition = 0;
-
-    final String key = ((Alert) objectKey).getAlertLevel();
-
-    return key.contains("CRITICAL") ?
-           criticalPartition : Math.abs(key.hashCode()) % partitionMetaList.size();   //<2>
+    
+      Random randomPart = new Random(); 
+      return randomPart.nextInt(partitionMetaList.size());
+  }
+  
+  public boolean isCriticalLevel(String level) {
+    if (level.toUpperCase().contains("CRITICAL")) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

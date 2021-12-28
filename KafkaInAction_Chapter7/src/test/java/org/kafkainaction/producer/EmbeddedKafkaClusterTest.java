@@ -32,17 +32,17 @@ public class EmbeddedKafkaClusterTest {
 	public static final EmbeddedKafkaCluster embeddedKafkaCluster 
 		= new EmbeddedKafkaCluster(BROKER_NUMBER);
 	
-    private Properties producerConfig;
-    private Properties consumerConfig;
+    private Properties kaProducerProperties;
+    private Properties kaConsumerProperties;
 
 	@Before
 	public void setUpBeforeClass() throws Exception {
 		embeddedKafkaCluster.createTopic(TOPIC, PARTITION_NUMER, REPLICATION_NUMBER);
-        producerConfig = TestUtils.producerConfig(embeddedKafkaCluster.bootstrapServers(),
+        kaProducerProperties = TestUtils.producerConfig(embeddedKafkaCluster.bootstrapServers(),
         		AlertKeySerde.class,
                 StringSerializer.class);
 
-        consumerConfig = TestUtils.consumerConfig(embeddedKafkaCluster.bootstrapServers(),
+        kaConsumerProperties = TestUtils.consumerConfig(embeddedKafkaCluster.bootstrapServers(),
                 AlertKeySerde.class,
                 StringDeserializer.class);
 	}
@@ -51,13 +51,13 @@ public class EmbeddedKafkaClusterTest {
 	public void testAlertPartitioner() throws InterruptedException {
 		AlertProducer alertProducer =  new AlertProducer();
 		try {
-			alertProducer.sendMessage(producerConfig);
+			alertProducer.sendMessage(kaProducerProperties);
 		} catch (Exception ex) {
-			fail("Made producer call with EmbeddedKafkaCluster should not throw exception" + ex.getMessage());
+			fail("kinaction_error EmbeddedKafkaCluster exception" + ex.getMessage());
 		}
 		
 		AlertConsumer alertConsumer = new AlertConsumer();
-		ConsumerRecords<Alert, String> records = alertConsumer.getAlertMessages(consumerConfig);
+		ConsumerRecords<Alert, String> records = alertConsumer.getAlertMessages(kaConsumerProperties);
 		TopicPartition partition = new TopicPartition(TOPIC, 0);
 		List<ConsumerRecord<Alert, String>> results = records.records(partition);
 		assertEquals(0, results.get(0).partition());
