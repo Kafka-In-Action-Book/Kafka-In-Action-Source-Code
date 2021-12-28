@@ -1,7 +1,13 @@
 # Source Code for Kafka in Action
 
 ## Most up-to-date location
-* While the source code might be included as a zip file from the Manning website, the location that will likely be the most up-to-date will located at https://github.com/Kafka-In-Action-Book/Kafka-In-Action-Source-Code. The authors recommend referring to that site rather than the Manning zip location if you have a choice.
+* While the source code might be included as a zip file from the Manning website, the location that will likely be the most up-to-date will be located at https://github.com/Kafka-In-Action-Book/Kafka-In-Action-Source-Code. The authors recommend referring to that site rather than the Manning zip location if you have a choice.
+
+
+### Errata
+
+* If you happen to find errata, one option is to look at: https://github.com/Kafka-In-Action-Book/Kafka-In-Action-Source-Code/blob/master/errata.md
+* This is not the official Manning site errata list for the book - but please feel free to create a pull request to share any errata that you wish to share to help others.
 
 ## Disclaimer
 
