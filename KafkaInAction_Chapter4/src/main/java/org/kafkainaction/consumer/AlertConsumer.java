@@ -6,6 +6,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
 import org.kafkainaction.model.Alert;
+import org.kafkainaction.serde.AlertKeySerde;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class AlertConsumer {
     kaProperties.put("enable.auto.commit", "false");
     kaProperties.put("group.id", "kinaction_team0groupalert");
     /** Deserialize key using {@link org.kafkainaction.serde.AlertKeySerde} */
-    kaProperties.put("key.deserializer", "org.kafkainaction.serde.AlertKeySerde");
+    kaProperties.put("key.deserializer", AlertKeySerde.class.getName());
     kaProperties.put("value.deserializer",
               "org.apache.kafka.common.serialization.StringDeserializer");
 
