@@ -20,7 +20,6 @@ public class AlertConsumer {
 
   final static Logger log = LoggerFactory.getLogger(AlertConsumer.class);
   private volatile boolean keepConsuming = true;
-  public static final String TOPIC_NAME = "kinaction_alert";
 
   public static void main(String[] args) {
     Properties kaProperties = new Properties();
@@ -44,7 +43,7 @@ public class AlertConsumer {
 
   private void consume(final Properties kaProperties) {
     KafkaConsumer<Alert, String> consumer = new KafkaConsumer<>(kaProperties);
-    TopicPartition partitionZero = new TopicPartition(TOPIC_NAME, 0);
+    TopicPartition partitionZero = new TopicPartition("kinaction_alert", 0);
     consumer.assign(List.of(partitionZero));
 
     while (keepConsuming) {
@@ -54,7 +53,7 @@ public class AlertConsumer {
                  record.offset(),
                  record.key().getStageId(),
                  record.value());
-        commitOffset(record.offset(), record.partition(), TOPIC_NAME, consumer);
+        commitOffset(record.offset(), record.partition(), "kinaction_alert", consumer);
       }
     }
   }
