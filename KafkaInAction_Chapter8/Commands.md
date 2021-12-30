@@ -40,13 +40,3 @@ ag.channels.channel1.kafka.topic = kinaction_channel1_ch
 ag.channels.channel1.kafka.consumer.group.id = kinaction_flume
 
 ````
-
-
-## Secor
-
-````
-java -ea -Dlog4j.configuration=log4j.prod.properties \ 
-  -Dconfig=secor.prod.backup.properties \ 
-  -cp secor-0.1-SNAPSHOT.jar:lib/* \ 
-  com.pinterest.secor.main.ConsumerMain
-````
