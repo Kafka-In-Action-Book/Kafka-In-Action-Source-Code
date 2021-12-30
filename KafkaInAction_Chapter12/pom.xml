@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>chapter12</artifactId>
-    <description>Kafka Streams and KSQL</description>
+    <description>Stream processing with Kafka Streams and ksqlDB</description>
 
     <dependencies>
         <dependency>
