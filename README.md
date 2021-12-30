@@ -11,7 +11,6 @@
 
 ## Security Concerns
 * Please check out the following to stay up-to-date on any security issues. The code in this project is NOT production ready and dependencies might have VULNERABILITIES that evolve over time.
-* https://support.confluent.io/hc/en-us/articles/4412615410580-December-2021-Log4j-Vulnerabilities-Advisory
 * https://kafka.apache.org/cve-list
 
 ## Disclaimer
