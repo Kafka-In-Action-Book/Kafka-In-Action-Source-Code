@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>chapter9-no-java</artifactId>
-    <description>Administration - Cluster Tools, Logging, and Monitoring</description>
+    <description>Management: Tools and logging</description>
 
     <build>
         <finalName>chapter9</finalName>
