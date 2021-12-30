@@ -11,7 +11,7 @@ docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
 == Start ksqlDB in headless mode
 
 bin/ksql-server-start.sh etc/ksql/ksql-server.properties \
---queries-file kinaction.sql
+--queries-file ksql.sql
 
 == running a new version of Streams app
 
