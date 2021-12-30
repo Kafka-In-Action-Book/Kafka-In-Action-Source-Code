@@ -31,7 +31,7 @@ Here are some notes regarding the source code:
 ### Requirements
 This project was built with the following versions:
 
-1. Java 11
+1. Java 11 
 2. Apache Maven 3.6.x.
 We provide [Maven Wrapper](https://github.com/takari/maven-wrapper), so you don't need to install Maven yourself.
 
