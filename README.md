@@ -9,6 +9,11 @@
 * If you happen to find errata, one option is to look at: https://github.com/Kafka-In-Action-Book/Kafka-In-Action-Source-Code/blob/master/errata.md
 * This is not the official Manning site errata list for the book - but please feel free to create a pull request to share any errata that you wish to share to help others.
 
+## Security Concerns
+* Please check out the following to stay up-to-date on any security issues. The code in this project is NOT production ready and dependencies might have VULNERABILITIES that evolve over time.
+* https://support.confluent.io/hc/en-us/articles/4412615410580-December-2021-Log4j-Vulnerabilities-Advisory
+* https://kafka.apache.org/cve-list
+
 ## Disclaimer
 
 The author and publisher have made every effort to ensure that the information in this book
