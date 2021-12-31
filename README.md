@@ -18,7 +18,7 @@
 
 Here are some notes regarding the source code:
 
-1. Shell commands will be presented in a [Markdown](https://daringfireball.net/projects/markdown/syntax) format in a file called Commands.md for each Chapter folder if there are any commands introduced in that chapter.
+1. Select shell commands will be presented in a [Markdown](https://daringfireball.net/projects/markdown/syntax) format in a file called Commands.md or in [AsciiDoc](https://docs.asciidoctor.org/asciidoc/latest/) called Commands.adoc for each Chapter folder if there are any commands selected in that chapter.
 
 ### Requirements
 This project was built with the following versions:
@@ -97,11 +97,11 @@ Run the following in a directory (without spaces in the path) once you get the a
 1. Run bin/zookeeper-server-stop.sh
 
 ### Code by Chapter
-All the code from the book can be found in the project corresponding to the chapter.
+Most of the code from the book can be found in the project corresponding to the chapter. Some code has been moved to other chapters in order to reduce the number of replication of related classes.
  
 ### Running the examples
  
-All of the example programs can be run from within an IDE or from the command line. Make sure that your ZooKeeper and Kafka Brokers are up and running before you can run any of the examples.
+Most of the example programs can be run from within an IDE or from the command line. Make sure that your ZooKeeper and Kafka Brokers are up and running before you can run any of the examples.
 
 The examples will usually write out to topics and print to the console.
 
@@ -116,9 +116,8 @@ They include:
 	
 ## Disclaimer
 
-The author and publisher have made every effort to ensure that the information in this book
-and code was correct at press time. The author and publisher do not assume and hereby disclaim any
+The author and publisher have made every effort to ensure that the information in this book was correct at press time. The author and publisher do not assume and hereby disclaim any
 liability to any party for any loss, damage, or disruption caused by errors or omissions, whether
 such errors or omissions result from negligence, accident, or any other cause, or from any usage
-of the information herein.	
+of the information herein. Note: The information in this book also refers to and includes the source code found here.	
 
