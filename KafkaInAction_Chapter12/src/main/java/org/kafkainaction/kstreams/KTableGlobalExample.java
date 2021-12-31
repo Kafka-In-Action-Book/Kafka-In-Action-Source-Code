@@ -23,7 +23,7 @@ public class KTableGlobalExample {
     	final KStream<String, MailingNotif> lists = builder.stream("kinaction_mailingNotif");
     	final GlobalKTable<String, Customer> customers = builder.globalTable("kinaction_custinfo");
 
-    	//uncomment to work table logic desired
+    	//uncomment to work on table logic if desired
  - 
 //		lists.join(customers, (mailingNotifID, mailingNotif) -> mailingNotif.getCustomerId(),
 //				(mailingNotif, customer) -> new Email(mailingNotif, customer))
