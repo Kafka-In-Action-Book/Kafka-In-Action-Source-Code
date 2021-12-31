@@ -24,7 +24,6 @@ public class KTableGlobalExample {
     	final GlobalKTable<String, Customer> customers = builder.globalTable("kinaction_custinfo");
 
     	//uncomment to work on table logic if desired
- - 
 //		lists.join(customers, (mailingNotifID, mailingNotif) -> mailingNotif.getCustomerId(),
 //				(mailingNotif, customer) -> new Email(mailingNotif, customer))
 //				.peek((key, email) -> emailService.sendMessage(email));
