@@ -1,11 +1,6 @@
 # Commands used in Chapter 7
 
-## Listing cluster topics
-
-	bin/kafka-topics.sh --bootstrap-server localhost:9094 --list
-
-
-## Creating a topic
+## Creating a topic for Chapter 7
 
 	bin/kafka-topics.sh --create --bootstrap-server localhost:9094 \ 
 	--topic kinaction_topicandpart \ 
