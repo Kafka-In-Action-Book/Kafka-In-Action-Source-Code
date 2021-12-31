@@ -50,10 +50,9 @@ public class AlertConsumer {
     while (keepConsuming) {
       ConsumerRecords<Alert, String> records = consumer.poll(Duration.ofMillis(250));
       for (ConsumerRecord<Alert, String> record : records) {
-        log.info("kinaction_info offset = {}, key = {}, value = {}",
+        log.info("kinaction_info offset = {}, key = {}",
                  record.offset(),
-                 record.key().getStageId(),
-                 record.value());
+                 record.key().getStageId());
         commitOffset(record.offset(), record.partition(), "kinaction_alert", consumer);
       }
     }
