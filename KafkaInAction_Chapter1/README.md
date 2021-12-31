@@ -89,7 +89,7 @@ The examples will usually write out to topics and print to the console.
 
 ### Shell Scripts
 
-In the Chapter 2 project, I have included a couple of scripts if you want to use them under src/main/resources.
+In the Chapter 2 project, we have included a couple of scripts if you want to use them under src/main/resources.
 
 They include:
 * `starteverything.sh` //This will start your ZooKeeper and Kafka Brokers (you will still have to go through the first time setup with Appendix A before using this.)
