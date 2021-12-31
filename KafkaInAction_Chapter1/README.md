@@ -16,7 +16,7 @@ This project was built with the following versions:
 
 ### IDE setup
  
-1. We have used eclipse for my IDE. 
+1. We have used eclipse for our IDE. 
    To set up for eclipse run `mvn eclipse:eclipse` from the base directory of this repo. 
    Or, you can Import->Existing Maven Projects.
 
