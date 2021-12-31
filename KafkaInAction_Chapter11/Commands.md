@@ -11,8 +11,10 @@ debug=false
 
 ## Starting Schema Registry
 
-bin/schema-registry-start \\ 
+````
+bin/schema-registry-start \ 
   ./etc/schema-registry/schema-registry.properties
+````  
   
 ## Listing Schema Registry Configuration
 
@@ -20,6 +22,7 @@ curl -X GET http://localhost:8081/config
   
 ## Checking Compatibility with the Schema Registry Maven Plugin
 
+````
 <plugin>
     <groupId>io.confluent</groupId>
     <artifactId>kafka-schema-registry-maven-plugin</artifactId> 
@@ -38,6 +41,7 @@ curl -X GET http://localhost:8081/config
         <goal>test-compatibility</goal> 
     </goals>
 </plugin>
+````
 
 ### More Commands
 
