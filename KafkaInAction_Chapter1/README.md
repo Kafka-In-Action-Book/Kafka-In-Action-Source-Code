@@ -4,7 +4,7 @@
 
 Here are some notes regarding the source code:
 
-1. Shell commands will be presented in a [Markdown](https://daringfireball.net/projects/markdown/syntax) format in a file called `Commands.md` for each Chapter folder if there are any commands introduced in that chapter.
+1. Select shell commands will be presented in a [Markdown](https://daringfireball.net/projects/markdown/syntax) format in a file called Commands.md or in [AsciiDoc](https://docs.asciidoctor.org/asciidoc/latest/) called Commands.adoc for each Chapter folder if there are any commands selected in that chapter.
 
 ### Requirements
 
@@ -78,11 +78,11 @@ Run the following in a directory (without spaces in the path) once you get the a
 
 ### Code by Chapter
 
-All the code from the book can be found in the project corresponding to the chapter.
- 
+Most of the code from the book can be found in the project corresponding to the chapter. Some code has been moved to other chapters in order to reduce the number of replication of related classes.
+	
 ### Running the examples
  
-All example programs can be run from within an IDE or from the command line. 
+Most of the example programs can be run from within an IDE or from the command line. 
 Make sure that your ZooKeeper and Kafka Brokers are up and running before you can run any of the examples.
 
 The examples will usually write out to topics and print to the console.
