@@ -32,6 +32,7 @@ public class AlertLevelPartitioner implements Partitioner {   //<1>
   }
   
   public int findRandomPartition(Cluster cluster, String topic, Object objectKey) {
+    //not using parameter objectKey but could if needed for your logic
     List<PartitionInfo> partitionMetaList =
         cluster.availablePartitionsForTopic(topic);
     

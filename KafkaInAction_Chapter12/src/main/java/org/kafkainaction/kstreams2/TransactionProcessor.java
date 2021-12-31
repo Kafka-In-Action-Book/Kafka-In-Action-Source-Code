@@ -83,7 +83,7 @@ public class TransactionProcessor {
 
     StreamsBuilder builder = new StreamsBuilder();
 
-    // TODO use default serde config instead
+    // could use default serde config instead
     final SpecificAvroSerde<Transaction> transactionRequestAvroSerde = SchemaSerdes.getSpecificAvroSerde(props);
     final SpecificAvroSerde<TransactionResult> transactionResultAvroSerde = SchemaSerdes.getSpecificAvroSerde(props);
     final SpecificAvroSerde<Funds> fundsSerde = SchemaSerdes.getSpecificAvroSerde(props);

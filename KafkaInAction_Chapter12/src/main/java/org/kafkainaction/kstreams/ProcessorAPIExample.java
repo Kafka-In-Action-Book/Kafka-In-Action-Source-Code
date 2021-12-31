@@ -27,7 +27,8 @@ public class ProcessorAPIExample {
 
 		Topology topology = new Topology();
 		topology = topology.addSource(LATEST, "kinaction_source", stringDeserializer, stringDeserializer, "kinaction_source_topic");
-
+		
+		//uncomment to work on adding processor if desired
 		//topology = topology.addProcessor("kinactionTestProcessor", () -> new KinactionTestProcessor(), "kinaction_source");
 		
 		topology = topology.addSink("Kinaction-Destination1-Topic", "kinaction_destination1_topic", stringSerializer, stringSerializer, "kinactionTestProcessor");

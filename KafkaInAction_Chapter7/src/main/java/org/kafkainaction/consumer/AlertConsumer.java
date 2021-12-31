@@ -19,7 +19,7 @@ public class AlertConsumer {
   public ConsumerRecords<Alert, String> getAlertMessages(Properties kaConsumerProperties) {
   	KafkaConsumer<Alert, String> consumer = new KafkaConsumer<>(kaConsumerProperties);
   	consumer.subscribe(List.of("kinaction_alert"));
-  	return consumer.poll(Duration.ofMillis(1000));
+  	return consumer.poll(Duration.ofMillis(250));
   }
 
 }
