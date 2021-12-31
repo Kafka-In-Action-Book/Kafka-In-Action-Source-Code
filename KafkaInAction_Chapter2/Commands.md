@@ -3,8 +3,12 @@
 ## Creating the helloworld Topic
 
 ```shell script
+export TOPIC=kinaction_helloworld
+```
+
+```shell script
 bin/kafka-topics.sh --create --bootstrap-server localhost:9094 \
-  --topic kinaction_helloworld --partitions 3 --replication-factor 3
+  --topic $TOPIC --partitions 3 --replication-factor 3
 ```
 
 You should see the output: `Created topic kinaction_helloworld.`
@@ -12,20 +16,20 @@ You should see the output: `Created topic kinaction_helloworld.`
 ## Describe the Topic
 
 ```shell script
-bin/kafka-topics.sh --bootstrap-server localhost:9094 --describe --topic kinaction_helloworld
+bin/kafka-topics.sh --bootstrap-server localhost:9094 --describe --topic $TOPIC
 ```
 
 ## Kafka Producer Console Command
 
 ```shell script
-bin/kafka-console-producer.sh --bootstrap-server localhost:9094 --topic kinaction_helloworld
+bin/kafka-console-producer.sh --bootstrap-server localhost:9094 --topic $TOPIC
 ```
     
 ## Kafka Consumer Console Command
 
 ```shell script
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 \
---topic kinaction_helloworld --from-beginning
+--topic $TOPIC --from-beginning
 ```
     
 ## Java Client POM entry
