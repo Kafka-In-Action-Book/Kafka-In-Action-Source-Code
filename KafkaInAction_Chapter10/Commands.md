@@ -11,7 +11,7 @@ The EXAMPLE ONLY label notes that these commands are not likely to work for your
 
     keytool -genkey -noprompt \
         -alias localhost \
-        -dname "CN=kia.manning.com, OU=TEST, O=TREASURE, L=Bend, S=Or, C=US" \
+        -dname "CN=ka.manning.com, OU=TEST, O=TREASURE, L=Bend, S=Or, C=US" \
         -keystore kafka.broker0.keystore.jks \ 
         -keyalg RSA \
         -storepass changeTreasure \ 
