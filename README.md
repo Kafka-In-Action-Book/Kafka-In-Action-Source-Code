@@ -55,10 +55,11 @@ Run the following in a directory (without spaces in the path) once you get the a
 2. Run bin/zookeeper-server-start.sh config/zookeeper.properties
 3. Modify the Kafka server configs
 
-	
+	````
 	cp config/server.properties config/server0.properties
 	cp config/server.properties config/server1.properties
 	cp config/server.properties config/server2.properties
+	````
 	
 	vi config/server0.properties
 	````
