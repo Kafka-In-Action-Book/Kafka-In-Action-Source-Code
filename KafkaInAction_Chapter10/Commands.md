@@ -103,5 +103,5 @@ The EXAMPLE ONLY label notes that these commands are not likely to work for your
     --entity-type clients --entity-name kinaction_clueful 
     
     
-    # Reference
+ # Reference
     * https://docs.confluent.io/platform/current/security/security_tutorial.html
