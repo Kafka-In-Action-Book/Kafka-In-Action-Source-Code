@@ -13,13 +13,6 @@
 * Please check out the following to stay up-to-date on any security issues. The code in this project is NOT production ready and dependencies might have VULNERABILITIES that evolve over time.
 * https://kafka.apache.org/cve-list
 
-## Disclaimer
-
-The author and publisher have made every effort to ensure that the information in this book
-and code was correct at press time. The author and publisher do not assume and hereby disclaim any
-liability to any party for any loss, damage, or disruption caused by errors or omissions, whether
-such errors or omissions result from negligence, accident, or any other cause, or from any usage
-of the information herein.
 
 ## Notes
 
@@ -111,4 +104,12 @@ They include:
 * `starteverything.sh` //This will start your ZooKeeper and Kafka Brokers (you will still have to go through the first time setup with Appendix A before using this.)
 * stopeverything.sh // Will stop ZooKeeper and your brokers
 * portInUse.sh // If you get a port in use error on startup, this script will kill all of the processes using those ports (assuming you are using the same ports as in Appendix A setup).
+	
+## Disclaimer
+
+The author and publisher have made every effort to ensure that the information in this book
+and code was correct at press time. The author and publisher do not assume and hereby disclaim any
+liability to any party for any loss, damage, or disruption caused by errors or omissions, whether
+such errors or omissions result from negligence, accident, or any other cause, or from any usage
+of the information herein.	
 
