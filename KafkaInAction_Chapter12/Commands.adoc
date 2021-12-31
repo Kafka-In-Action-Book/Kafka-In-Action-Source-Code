@@ -1,6 +1,6 @@
 = Commands used in Chapter 12
 
-== start or components of tht Confluent Platform
+== start or components of the Confluent Platform
 
 docker-compose up -d
 
