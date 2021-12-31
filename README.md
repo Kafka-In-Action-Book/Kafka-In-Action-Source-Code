@@ -40,7 +40,7 @@ For example, to build only example from Chapter 12 run:
 
 ### IDE setup
  
-1. I have used eclipse for my IDE. To set up for eclipse run mvn eclipse:eclipse from the base directory of this repo. Or, you can Import->Existing Maven Projects.
+1. We have used Eclipse for our IDE. To set up for eclipse run mvn eclipse:eclipse from the base directory of this repo. Or, you can Import->Existing Maven Projects.
 
 
 ### Installing Kafka
