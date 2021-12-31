@@ -19,6 +19,7 @@
 Here are some notes regarding the source code:
 
 1. Select shell commands will be presented in a [Markdown](https://daringfireball.net/projects/markdown/syntax) format in a file called Commands.md or in [AsciiDoc](https://docs.asciidoctor.org/asciidoc/latest/) called Commands.adoc for each Chapter folder if there are any commands selected in that chapter.
+2. Not all commands and snippets of code are included here that were in the book material. As a beginner book, some sections were meant only to give an idea of the general process and not complete examples.
 
 ### Requirements
 This project was built with the following versions:
