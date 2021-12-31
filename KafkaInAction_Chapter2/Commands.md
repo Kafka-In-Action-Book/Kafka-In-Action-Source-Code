@@ -11,8 +11,6 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9094 \
   --topic $TOPIC --partitions 3 --replication-factor 3
 ```
 
-You should see the output: `Created topic kinaction_helloworld.`
-
 ## Describe the Topic
 
 ```shell script
