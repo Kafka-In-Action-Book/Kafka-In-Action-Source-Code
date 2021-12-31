@@ -60,7 +60,7 @@ public class TransactionTransformerTest {
         .withLoggingDisabled()    // Changelog is not supported by MockProcessorContext.
         .build();
 
-    // TODO 👇
+    // might do this a different way
     fundsStore.init(mockContext, fundsStore);
     mockContext.register(fundsStore, null);
 
