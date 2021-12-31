@@ -2,10 +2,12 @@
 
 ## Important Schema Registry Configuration
 
+````
 listeners=http://localhost:8081
 kafkastore.connection.url=localhost:2181 
 kafkastore.topic=_schemas 
 debug=false
+````
 
 ## Starting Schema Registry
 
