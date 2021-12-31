@@ -6,11 +6,11 @@
 
 You should see the ouput: `Created topic "kinaction_selfserviceTopic".`
 
-## Kafkacat Producer usage
+## kcat Producer usage
 
     kcat -P -b localhost:9094 -t kinaction_selfserviceTopic
  
-## Kafkacat Consumer usage
+## kcat Consumer usage
 
     kcat -C -b localhost:9094 -t kinaction_selfserviceTopic
 
@@ -75,12 +75,5 @@ You should see the ouput: `Created topic "kinaction_selfserviceTopic".`
         <version>LATEST</version>
     </dependency>
 
-## Kafka JMX Options
-
-    KAFKA_JMX_OPTS="-Djava.rmi.server.hostname=127.0.0.1  
-    -Dcom.sun.management.jmxremote.local.only=false  
-    -Dcom.sun.management.jmxremote.rmi.port=49999  
-    -Dcom.sun.management.jmxremote.authenticate=false  
-    -Dcom.sun.management.jmxremote.ssl=false"
 
 
