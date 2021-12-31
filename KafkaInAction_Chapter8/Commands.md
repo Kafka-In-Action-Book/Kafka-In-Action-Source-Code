@@ -40,3 +40,7 @@ ag.channels.channel1.kafka.topic = kinaction_channel1_ch
 ag.channels.channel1.kafka.consumer.group.id = kinaction_flume
 
 ````
+
+
+## Reference
+* https://flume.apache.org/releases/content/1.9.0/FlumeUserGuide.html#kafka-sink
