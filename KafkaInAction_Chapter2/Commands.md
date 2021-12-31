@@ -1,6 +1,6 @@
 # Commands used in Chapter 2
 
-## Creating the helloworld Topic
+## Creating our Topic
 
 ```shell script
 export TOPIC=kinaction_helloworld
