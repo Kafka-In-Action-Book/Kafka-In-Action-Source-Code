@@ -57,6 +57,8 @@ INSERT INTO invoices (id,title,details,billedamt)  VALUES (1, 'book', 'Franz Kaf
 
 `> vi $CONFLUENT_HOME/etc/kafka-connect-jdbc/kafkatest-sqlite.properties`
 
+
+### File Contents
 *NOTE: Update your database path below to be the full path for best results: ie. *
 connection.url=jdbc:sqlite:/<YOUR_FULL_PATH>/confluent-6.2.0/kafkatest.db
  
