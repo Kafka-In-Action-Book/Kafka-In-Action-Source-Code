@@ -8,7 +8,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <kafka.version>2.7.1</kafka.version>
+        <kafka.version>6.1.1-ce</kafka.version>
         <kafka.scala.version>2.13</kafka.scala.version>
         <avro.version>1.10.2</avro.version>
         <confluent.version>6.1.1</confluent.version>
