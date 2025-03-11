@@ -8,8 +8,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.kafkainaction.Transaction;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Stream;

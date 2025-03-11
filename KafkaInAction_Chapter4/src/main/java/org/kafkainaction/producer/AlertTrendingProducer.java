@@ -5,12 +5,12 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.kafkainaction.model.Alert;
+import org.kafkainaction.serde.AlertKeySerde;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
-import org.kafkainaction.serde.AlertKeySerde;
 
 public class AlertTrendingProducer {
 

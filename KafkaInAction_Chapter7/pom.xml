@@ -10,7 +10,10 @@
 
 	<artifactId>chapter7</artifactId>
 	<description>Topics and Partitions</description>
-
+    <properties>
+        <testcontainers.version>1.20.6</testcontainers.version>
+    </properties>
+    
 	<dependencies>
         <dependency>
             <groupId>org.apache.kafka</groupId>
@@ -61,7 +64,27 @@
             <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <scope>test</scope>
-        </dependency>                            
+        </dependency>
+
+        <!-- Testcontainers dependencies -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 	<build>

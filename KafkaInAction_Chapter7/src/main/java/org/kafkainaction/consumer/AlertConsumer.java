@@ -1,15 +1,14 @@
 package org.kafkainaction.consumer;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
-import java.util.List;
-
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.kafkainaction.model.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.Properties;
 
 public class AlertConsumer {
 

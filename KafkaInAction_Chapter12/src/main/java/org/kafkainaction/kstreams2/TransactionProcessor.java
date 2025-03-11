@@ -11,10 +11,7 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Printed;
 import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.kstream.ValueTransformer;
-import org.apache.kafka.streams.kstream.ValueTransformerSupplier;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
@@ -26,13 +23,12 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 
-import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.*;
+import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG;
 import static org.apache.kafka.common.metrics.Sensor.RecordingLevel.TRACE;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.BOOTSTRAP_SERVERS_CONFIG;
@@ -132,30 +128,28 @@ public class TransactionProcessor {
                            final SpecificAvroSerde<Funds> fundsSerde) {
 
     final Serde<String> stringSerde = Serdes.String();
-    storesBuilder(this.fundsStoreName, stringSerde, fundsSerde);
+    // Add the state store to the topology
+    builder.addStateStore(storesBuilder(this.fundsStoreName, stringSerde, fundsSerde));
 
     KStream<String, Transaction> transactionStream =
         builder.stream(this.transactionsInputTopicName,
                        Consumed.with(stringSerde, transactionRequestAvroSerde));
 
-    transactionStream.print(Printed.<String, Transaction>toSysOut().withLabel("transactions logger"));
+    // Use peek instead of print for better readability
+    transactionStream = transactionStream.peek((key, value) ->
+                                                   System.out.println("transactions logger: key=" + key + ", value=" + value));
 
-    transactionStream.toTable(Materialized.<String, Transaction, KeyValueStore<Bytes, byte[]>>as("latest-transactions")
-                                  .withKeySerde(stringSerde)
-                                  .withValueSerde(transactionRequestAvroSerde));
-    
+    // Use toTable with Named.as() for the name parameter
+    transactionStream.toTable(
+        Materialized.<String, Transaction, KeyValueStore<Bytes, byte[]>>as("latest-transactions")
+            .withKeySerde(stringSerde)
+            .withValueSerde(transactionRequestAvroSerde));
+
+    // Use the non-deprecated process method
     KStream<String, TransactionResult> resultStream =
-        transactionStream.transformValues(new ValueTransformerSupplier<>() {
-          @Override
-          public ValueTransformer<Transaction, TransactionResult> get() {
-            return new TransactionTransformer(fundsStoreName);
-          }
-
-          @Override
-          public Set<StoreBuilder<?>> stores() {
-            return Set.of(TransactionProcessor.storesBuilder(fundsStoreName, stringSerde, fundsSerde));
-          }
-        });
+        transactionStream.process(
+            () -> new TransactionTransformer(fundsStoreName),
+            fundsStoreName);
 
 /*    final KStream<String, TransactionResult> resultStream =
         transactionStream.transformValues(() -> new TransactionTransformer());*/

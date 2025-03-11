@@ -3,6 +3,7 @@ package org.kafkainaction.producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.kafkainaction.callback.AlertCallback;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.stream.Stream;
-import org.kafkainaction.callback.AlertCallback;
 
 
 @SuppressWarnings("unused")

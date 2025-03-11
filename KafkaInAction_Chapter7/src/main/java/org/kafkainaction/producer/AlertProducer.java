@@ -1,12 +1,12 @@
 package org.kafkainaction.producer;
 
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.kafkainaction.model.Alert;
+
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class AlertProducer {
 

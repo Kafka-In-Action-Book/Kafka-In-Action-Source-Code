@@ -1,7 +1,8 @@
 package org.kafkainaction.kstreams2;
 
-import org.apache.kafka.streams.kstream.ValueTransformer;
-import org.apache.kafka.streams.processor.ProcessorContext;
+import org.apache.kafka.streams.processor.api.Processor;
+import org.apache.kafka.streams.processor.api.ProcessorContext;
+import org.apache.kafka.streams.processor.api.Record;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.kafkainaction.Funds;
 import org.kafkainaction.Transaction;
@@ -15,12 +16,13 @@ import java.util.Optional;
 import static org.kafkainaction.ErrorType.INSUFFICIENT_FUNDS;
 import static org.kafkainaction.TransactionType.DEPOSIT;
 
-public class TransactionTransformer implements ValueTransformer<Transaction, TransactionResult> {
+public class TransactionTransformer implements Processor<String, Transaction, String, TransactionResult> {
 
   private static final Logger log = LoggerFactory.getLogger(TransactionTransformer.class);
 
   private final String stateStoreName;
   private KeyValueStore<String, Funds> store;
+  private ProcessorContext<String, TransactionResult> context;
 
   public TransactionTransformer() {
     // default name for funds store
@@ -54,30 +56,33 @@ public class TransactionTransformer implements ValueTransformer<Transaction, Tra
   }
 
   @Override
-  public void init(ProcessorContext context) {
-    store = context.getStateStore(stateStoreName);
+  public void init(ProcessorContext<String, TransactionResult> context) {
+    this.context = context;
+    this.store = context.getStateStore(stateStoreName);
   }
 
   @Override
-  public TransactionResult transform(Transaction transaction) {
+  public void process(Record<String, Transaction> record) {
+    String key = record.key();
+    Transaction transaction = record.value();
+    TransactionResult result;
 
     if (transaction.getType().equals(DEPOSIT)) {
-      return new TransactionResult(transaction,
+      result = new TransactionResult(transaction,
                                    depositFunds(transaction),
                                    true,
                                    null);
-    }
-
-    if (hasEnoughFunds(transaction)) {
-      return new TransactionResult(transaction, withdrawFunds(transaction), true, null);
-    }
-
-    log.info("Not enough funds for account {}.", transaction.getAccount());
-
-    return new TransactionResult(transaction,
+    } else if (hasEnoughFunds(transaction)) {
+      result = new TransactionResult(transaction, withdrawFunds(transaction), true, null);
+    } else {
+      log.info("Not enough funds for account {}.", transaction.getAccount());
+      result = new TransactionResult(transaction,
                                  getFunds(transaction.getAccount()),
                                  false,
                                  INSUFFICIENT_FUNDS);
+    }
+
+    context.forward(new Record<>(key, result, record.timestamp()));
   }
 
   private Funds updateFunds(String account, BigDecimal amount) {
@@ -91,4 +96,3 @@ public class TransactionTransformer implements ValueTransformer<Transaction, Tra
     return updateFunds(transaction.getAccount(), transaction.getAmount().negate());
   }
 }
-
