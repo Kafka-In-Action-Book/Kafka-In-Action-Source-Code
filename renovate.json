@@ -1,53 +1,75 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     ":dependencyDashboard"
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchCategories": [
+        "java"
+      ],
+      "enabled": true
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch"
+      "groupSlug": "all-minor-patch",
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
-      "matchPackagePatterns": ["^org\\.apache\\.kafka"],
       "groupName": "Kafka dependencies",
-      "groupSlug": "kafka"
+      "groupSlug": "kafka",
+      "matchPackageNames": [
+        "/^org\\.apache\\.kafka/"
+      ]
     },
     {
-      "matchPackagePatterns": ["^org\\.apache\\.avro"],
       "groupName": "Avro dependencies",
-      "groupSlug": "avro"
+      "groupSlug": "avro",
+      "matchPackageNames": [
+        "/^org\\.apache\\.avro/"
+      ]
     },
     {
-      "matchPackagePatterns": ["^io\\.confluent"],
       "groupName": "Confluent dependencies",
-      "groupSlug": "confluent"
+      "groupSlug": "confluent",
+      "matchPackageNames": [
+        "/^io\\.confluent/"
+      ]
     },
     {
-      "matchPackagePatterns": ["^ch\\.qos\\.logback"],
       "groupName": "Logback dependencies",
-      "groupSlug": "logback"
+      "groupSlug": "logback",
+      "matchPackageNames": [
+        "/^ch\\.qos\\.logback/"
+      ]
     },
     {
-      "matchPackagePatterns": ["^org\\.junit"],
       "groupName": "JUnit dependencies",
-      "groupSlug": "junit"
+      "groupSlug": "junit",
+      "matchPackageNames": [
+        "/^org\\.junit/"
+      ]
     }
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "rangeStrategy": "bump",
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Dependency Dashboard",
-  "schedule": ["every weekend"],
-  "java": {
-    "enabled": true
-  },
+  "schedule": [
+    "every weekend"
+  ],
   "maven": {
     "enabled": true
   }
