@@ -11,7 +11,7 @@
 	<artifactId>chapter7</artifactId>
 	<description>Topics and Partitions</description>
     <properties>
-        <testcontainers.version>1.20.6</testcontainers.version>
+        <testcontainers.version>2.0.5</testcontainers.version>
     </properties>
     
 	<dependencies>
