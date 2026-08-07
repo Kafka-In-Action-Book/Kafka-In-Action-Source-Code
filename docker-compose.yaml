@@ -92,7 +92,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:7.9.0
+    image: confluentinc/cp-ksqldb-server:8.3.1
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
