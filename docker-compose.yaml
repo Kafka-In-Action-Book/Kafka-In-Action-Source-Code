@@ -115,7 +115,7 @@ services:
       KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:7.9.0
+    image: confluentinc/cp-ksqldb-cli:8.0.7
     container_name: ksqldb-cli
     depends_on:
       - broker1
