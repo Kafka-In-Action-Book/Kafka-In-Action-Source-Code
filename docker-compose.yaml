@@ -11,7 +11,7 @@ services:
       KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
 
   broker1:
-    image: confluentinc/cp-kafka:7.9.0
+    image: confluentinc/cp-kafka:8.3.1
     hostname: broker1
     container_name: broker1
     depends_on:
@@ -33,7 +33,7 @@ services:
       KAFKA_JMX_HOSTNAME: localhost
 
   broker2:
-    image: confluentinc/cp-kafka:7.9.0
+    image: confluentinc/cp-kafka:8.3.1
     hostname: broker2
     container_name: broker2
     depends_on:
@@ -55,7 +55,7 @@ services:
       KAFKA_JMX_HOSTNAME: localhost
 
   broker3:
-    image: confluentinc/cp-kafka:7.9.0
+    image: confluentinc/cp-kafka:8.3.1
     hostname: broker3
     container_name: broker3
     depends_on:
